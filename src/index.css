@@ -4,8 +4,8 @@
 }
 html,
 body {
-  height: calc(100vh - 2rem);
-  width: calc(100vw - 2rem);
+  height: calc(100vh - 4rem);
+  width: calc(100vw - 4rem);
 }
 body {
   background-color: #060610;
