@@ -4,10 +4,10 @@
 }
 html,
 body {
-  height: calc(100vh - 4rem);
-  width: calc(100vw - 4rem);
+  height: calc(100vh - 2rem);
+  width: calc(100vw - 2rem);
 }
 body {
   background-color: #060610;
-  padding: 2rem;
+  padding: 1rem;
 }
