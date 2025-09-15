@@ -4,7 +4,7 @@ import { Sidebar } from "./Sidebar/Sidebar";
 import * as _ from "./styled";
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export function Layout({ children }: Props) {

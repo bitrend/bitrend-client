@@ -1,7 +1,11 @@
+import * as _ from './styled'
+
 export function Header() {
   return (
-    <header>
-      <h1>Header</h1>
-    </header>
+    <_.HeaderContainer>
+      <_.Section>
+        <_.HeaderText>Binaries</_.HeaderText>
+      </_.Section>
+    </_.HeaderContainer>
   );
 }
