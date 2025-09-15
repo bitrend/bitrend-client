@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Theme, Radius } from "../../Theme/theme";
+import { Radius } from "../../Theme/theme";
 
 type CardProps = {
     bg?: string;

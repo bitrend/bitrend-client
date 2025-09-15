@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Gap, Theme, Text } from "../../Theme/theme";
+import { Gap, Theme, Text, Color } from "../../Theme/theme";
 
 export const HeaderContainer = styled.header`
   display: flex;
@@ -24,4 +24,13 @@ export const HeaderText = styled.span`
   ${Text.Title.S};
   font-style: normal;
   letter-spacing: -0.025rem;
+`;
+
+export const BinariesPoint = styled.img`
+`;
+
+export const Divider = styled.div`
+  width: 0.0625rem;
+  height: 1rem;
+  background-color: ${Color.GrayScale.Translucence.Translucence_10};
 `;

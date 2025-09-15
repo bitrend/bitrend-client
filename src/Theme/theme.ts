@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 
 //color
-const Color = {
+export const Color = {
   Primary: {
     HotPink_30: "#FF99B9",
     HotPink_20: "#FF709D",
