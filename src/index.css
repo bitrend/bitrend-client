@@ -11,3 +11,8 @@ body {
   background-color: #060610;
   padding: 1rem;
 }
+
+#root {
+  width: 100%;
+  height: 100%;
+}
