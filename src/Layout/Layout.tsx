@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Header } from "./Header/Header";
 import { Sidebar } from "./Sidebar/Sidebar";
+import * as _ from "./styled";
 
 interface Props {
   children: ReactNode;
@@ -8,12 +9,12 @@ interface Props {
 
 export function Layout({ children }: Props) {
   return (
-    <main>
+    <_.Main>
       <Sidebar />
       <>
         <Header />
         {children}
       </>
-    </main>
+    </_.Main>
   );
 }
