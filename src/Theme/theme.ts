@@ -59,7 +59,7 @@ export const Theme = {
 };
 
 export const Gap = {
-  Gap_4: "0.24rem",
+  Gap_4: "0.25rem",
   Gap_6: "0.375rem",
   Gap_8: "0.5rem",
   Gap_12: "0.75rem",
