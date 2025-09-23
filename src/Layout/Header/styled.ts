@@ -7,7 +7,7 @@ export const HeaderContainer = styled.header`
   padding: 0 ${Gap.Gap_32};
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: calc(100% - ${Gap.Gap_32}*2);
 
   box-shadow: inset 0 -1px 0 0 ${Theme.Stroke.Stroke_Main};
 `;
