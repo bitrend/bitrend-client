@@ -17,7 +17,7 @@ export const Bar = styled.div<BarProps>`
   height: 2rem;
   background-color: ${(props) => props.bg};
   width: 100%;
-`
+`;
 
 export const BarLabel = styled.div`
   display: flex;
