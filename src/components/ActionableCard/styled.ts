@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Theme, Radius } from "../../Theme/theme";
+import { Radius } from "../../Theme/theme";
 
 type CardProps = {
     bg?: string;
@@ -7,6 +7,7 @@ type CardProps = {
     paddingX?: string;
     paddingY?: string;
     gap?: string;
+    borderColor?: string;
 };
 
 export const Card = styled.div<CardProps>`
@@ -19,7 +20,7 @@ export const Card = styled.div<CardProps>`
 
     padding: ${(props) => props.paddingY} ${(props) => props.paddingX};
     border-radius: ${Radius.radius_12};
-    outline: 1px solid ${Theme.Stroke.Stroke_10};
+    outline: 1px solid ${(props) => props.borderColor};
     outline-offset: ${(props) => props.offset};
     background: ${(props) => props.bg};
 `
