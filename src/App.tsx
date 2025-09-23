@@ -1,10 +1,10 @@
 import { Layout } from "./Layout/Layout";
-import BarChart from "./components/BarChart/BarChart";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
   return (
     <Layout>
-      <BarChart distribution="Distribution" percent1={58} percent2={25} percent3={17}/>
+      <Dashboard />
     </Layout>
   );
 }
