@@ -8,7 +8,6 @@ export const DashboardContainer = styled.div`
   gap: ${Gap.Gap_20};
   flex: 1 0 0;
   align-self: stretch;
-  padding: ${Gap.Gap_32};
 `;
 
 export const TitleSection = styled.div`
