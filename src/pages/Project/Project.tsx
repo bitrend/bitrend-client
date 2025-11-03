@@ -2,6 +2,23 @@ import { useState } from "react";
 import * as _ from "./styled";
 import { Icon } from "../../components/Icons/Icon";
 import { Theme } from "../../Theme/theme";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface Project {
   id: string;
@@ -66,9 +83,109 @@ const mockProjects: Project[] = [
   },
 ];
 
+interface SortableProjectCardProps {
+  project: Project;
+}
+
+function SortableProjectCard({ project }: SortableProjectCardProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: project.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <_.ProjectCard
+      ref={setNodeRef}
+      style={style}
+      isCompleted={project.isCompleted}
+    >
+      <_.ProjectCardContent>
+        <_.CheckboxWrapper>
+          <Icon
+            size="L"
+            color={
+              project.isCompleted
+                ? Theme.Functional.Primary
+                : Theme.Text.Text_30
+            }
+            fill={false}
+          >
+            {project.isCompleted ? "check_box" : "check_box_outline_blank"}
+          </Icon>
+        </_.CheckboxWrapper>
+
+        <_.ProjectInfo>
+          <_.ProjectHeader>
+            <_.ProjectNameRow>
+              <_.ProjectName>{project.name}</_.ProjectName>
+              <_.Badge isPublic={project.isPublic}>
+                <Icon size="XXS" color={Theme.Functional.Primary} fill={false}>
+                  {project.isPublic ? "public" : "security"}
+                </Icon>
+                <_.BadgeText>
+                  {project.isPublic ? "Public" : "Private"}
+                </_.BadgeText>
+              </_.Badge>
+            </_.ProjectNameRow>
+            <_.ProjectDescription>
+              {project.description}
+            </_.ProjectDescription>
+          </_.ProjectHeader>
+
+          <_.Tags>
+            <_.Tag>{project.language}</_.Tag>
+            {project.license && <_.Tag>{project.license}</_.Tag>}
+            <_.Tag>{project.updatedAt}</_.Tag>
+          </_.Tags>
+        </_.ProjectInfo>
+      </_.ProjectCardContent>
+
+      <_.DragHandle {...attributes} {...listeners}>
+        <Icon
+          size="L"
+          color={Theme.Text.Text_Translucence}
+          fill={false}
+        >
+          drag_indicator
+        </Icon>
+      </_.DragHandle>
+    </_.ProjectCard>
+  );
+}
+
 export function Project() {
-  const [projects] = useState<Project[]>(mockProjects);
+  const [projects, setProjects] = useState<Project[]>(mockProjects);
   const completedCount = projects.filter((p) => p.isCompleted).length;
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setProjects((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
 
   return (
     <_.Container>
@@ -83,64 +200,22 @@ export function Project() {
         </_.Counter>
       </_.Header>
 
-      <_.ProjectList>
-        {projects.map((project) => (
-          <_.ProjectCard key={project.id} isCompleted={project.isCompleted}>
-            <_.ProjectCardContent>
-              <_.CheckboxWrapper>
-                <Icon
-                  size="L"
-                  color={
-                    project.isCompleted
-                      ? Theme.Functional.Primary
-                      : Theme.Text.Text_30
-                  }
-                  fill={false}
-                >
-                  {project.isCompleted
-                    ? "check_box"
-                    : "check_box_outline_blank"}
-                </Icon>
-              </_.CheckboxWrapper>
-
-              <_.ProjectInfo>
-                <_.ProjectHeader>
-                  <_.ProjectNameRow>
-                    <_.ProjectName>{project.name}</_.ProjectName>
-                    <_.Badge isPublic={project.isPublic}>
-                      <Icon size="XXS" color={Theme.Functional.Primary} fill={false}>
-                        {project.isPublic ? "public" : "security"}
-                      </Icon>
-                      <_.BadgeText>
-                        {project.isPublic ? "Public" : "Private"}
-                      </_.BadgeText>
-                    </_.Badge>
-                  </_.ProjectNameRow>
-                  <_.ProjectDescription>
-                    {project.description}
-                  </_.ProjectDescription>
-                </_.ProjectHeader>
-
-                <_.Tags>
-                  <_.Tag>{project.language}</_.Tag>
-                  {project.license && <_.Tag>{project.license}</_.Tag>}
-                  <_.Tag>{project.updatedAt}</_.Tag>
-                </_.Tags>
-              </_.ProjectInfo>
-            </_.ProjectCardContent>
-
-            <_.DragHandle>
-              <Icon
-                size="L"
-                color={Theme.Text.Text_Translucence}
-                fill={false}
-              >
-                drag_indicator
-              </Icon>
-            </_.DragHandle>
-          </_.ProjectCard>
-        ))}
-      </_.ProjectList>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={projects.map((p) => p.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          <_.ProjectList>
+            {projects.map((project) => (
+              <SortableProjectCard key={project.id} project={project} />
+            ))}
+          </_.ProjectList>
+        </SortableContext>
+      </DndContext>
     </_.Container>
   );
 }

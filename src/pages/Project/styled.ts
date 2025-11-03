@@ -67,6 +67,11 @@ export const ProjectCard = styled.div<{ isCompleted: boolean }>`
     props.isCompleted ? Theme.Surface.Surface_20 : Theme.Surface.Surface_10};
   border: 1px solid ${Theme.Stroke.Stroke_Main};
   border-radius: ${Radius.radius_20};
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 export const ProjectCardContent = styled.div`
@@ -152,5 +157,11 @@ export const Tag = styled.div`
 export const DragHandle = styled.div`
   display: flex;
   flex-shrink: 0;
+  cursor: grab;
+  touch-action: none;
+
+  &:active {
+    cursor: grabbing;
+  }
 `;
 
