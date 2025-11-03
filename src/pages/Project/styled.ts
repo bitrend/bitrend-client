@@ -87,14 +87,14 @@ export const CheckboxWrapper = styled.div`
   flex-shrink: 0;
   cursor: pointer;
   user-select: none;
-  transition: opacity 0.2s ease;
+  transition: all 0.2s ease;
 
-  &:hover {
-    opacity: 0.7;
+  &:hover span {
+    color: ${Theme.Text.Text_30} !important;
   }
 
   &:active {
-    opacity: 0.5;
+    opacity: 0.8;
   }
 `;
 
