@@ -10,7 +10,7 @@ export const CardHeader = styled.div`
 `;
 
 export const CardTitle = styled.div`
-  ${Text.Body.M}
+  ${Text.Body.S}
   color: ${Theme.Text.Text_10};
 `;
 
@@ -28,7 +28,7 @@ export const MainStats = styled.div`
   gap: ${Gap.Gap_12};
 `;
 
-export const StatNumber = styled.div<{ primary?: boolean; secondary?: boolean }>`
+export const StatNumber = styled.div<{ primary?: boolean; secondary?: boolean; medium?: boolean }>`
   ${Text.Main.L}
   color: ${(props) =>
     props.primary
@@ -40,6 +40,11 @@ export const StatNumber = styled.div<{ primary?: boolean; secondary?: boolean }>
 
   ${(props) => props.secondary && `
     ${Text.Main.S}
+  `}
+
+  ${(props) => props.medium && `
+    ${Text.Main.M}
+    color: ${props.primary ? Theme.Text.Text_20 : Theme.Text.Text_Translucence};
   `}
 `;
 
@@ -135,7 +140,8 @@ export const LegendAmount = styled.div`
 
 // Binaries Variation Card
 export const BinariesVariationWrapper = styled.div`
-  width: 54.5rem;
+  flex: 1 1 60%;
+  min-width: 50rem;
   height: 31.25rem;
 `;
 
@@ -252,7 +258,7 @@ export const ChartXAxis = styled.div`
   align-self: stretch;
 
   span {
-    ${Text.Body.M}
+    ${Text.Body.S}
     color: ${Theme.Text.Text_Translucence};
   }
 `;

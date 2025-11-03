@@ -1,9 +1,11 @@
 import ActionableCard from "../../components/ActionableCard/ActionableCard";
 import { Icon } from "../../components/Icons/Icon";
 import { Theme, Gap } from "../../Theme/theme";
+import UserProfileCard from "./components/UserProfileCard";
+import ProjectListCard from "./components/ProjectListCard";
+import RankCard from "./components/RankCard";
 import TotalBinariesCard from "./components/TotalBinariesCard";
 import BinariesVariationCard from "./components/BinariesVariationCard";
-import RankCard from "./components/RankCard";
 import * as _ from "./styled";
 
 const Dashboard = () => {
@@ -58,9 +60,11 @@ const Dashboard = () => {
 
       {/* Cards Grid */}
       <_.CardsGrid>
+        <UserProfileCard />
+        <ProjectListCard />
+        <RankCard />
         <TotalBinariesCard />
         <BinariesVariationCard />
-        <RankCard />
       </_.CardsGrid>
     </_.DashboardContainer>
   );

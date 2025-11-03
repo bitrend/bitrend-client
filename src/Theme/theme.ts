@@ -39,7 +39,7 @@ export const Theme = {
 
   Text: {
     Text_Disabled: Color.GrayScale.Translucence.Translucence_50,
-    Text_Translucence: Color.GrayScale.Translucence.Translucence_10,
+    Text_Translucence: Color.GrayScale.Translucence.Translucence_40,
     Text_10: Color.GrayScale.GrayScale_10,
     Text_20: Color.GrayScale.GrayScale_20,
     Text_30: Color.GrayScale.GrayScale_30,
@@ -133,7 +133,7 @@ export const Text = {
     `,
     S: css`
       font-size: 0.938rem;
-      line-height: 20rem;
+      line-height: 1.25rem;
       font-weight: 400;
     `,
   },

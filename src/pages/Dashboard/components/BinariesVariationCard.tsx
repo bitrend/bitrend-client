@@ -1,7 +1,8 @@
 import { MainCard } from "../../../components/common/MainCard/MainCard";
 import { Icon } from "../../../components/Icons/Icon";
 import ActionableCard from "../../../components/ActionableCard/ActionableCard";
-import { Theme, Gap } from "../../../Theme/theme";
+import { Theme, Gap, Text } from "../../../Theme/theme";
+import styled from "@emotion/styled";
 import * as _ from "./styled";
 
 const BinariesVariationCard = () => {
@@ -18,8 +19,8 @@ const BinariesVariationCard = () => {
             <_.StatsSection>
               <_.MainStats>
                 <_.StatNumber secondary>increase</_.StatNumber>
-                <_.StatNumber primary>19Byte</_.StatNumber>
-                <_.StatNumber secondary>5Bit</_.StatNumber>
+                <_.StatNumber medium primary>19Byte</_.StatNumber>
+                <_.StatNumber medium>5Bit</_.StatNumber>
               </_.MainStats>
 
               <_.StatsBadge>
@@ -27,9 +28,7 @@ const BinariesVariationCard = () => {
                   <Icon size="XXS" color={Theme.Functional.Primary}>stat_1</Icon>
                   <span>12%</span>
                 </_.PercentageBadge>
-                <_.StatsDetail>
-                  <span>This week</span>
-                </_.StatsDetail>
+                <StatsDetailSingle>This week</StatsDetailSingle>
               </_.StatsBadge>
             </_.StatsSection>
           </_.ChartHeaderLeft>
@@ -154,12 +153,17 @@ const BinariesVariationCard = () => {
           <span>Tue</span>
           <span>Wed</span>
           <span>Thu</span>
-          <span>Fri</span>
+          <span>Fir</span>
           <span>Sat</span>
         </_.ChartXAxis>
       </MainCard>
     </_.BinariesVariationWrapper>
   );
 };
+
+const StatsDetailSingle = styled.span`
+  ${Text.Label.S}
+  color: ${Theme.Text.Text_Translucence};
+`;
 
 export default BinariesVariationCard;

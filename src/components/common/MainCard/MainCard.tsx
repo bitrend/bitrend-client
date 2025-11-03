@@ -10,4 +10,5 @@ export const MainCard = styled.div`
   border-radius: ${Radius.radius_20};
   border: 1px solid ${Theme.Stroke.Stroke_Main};
   background: ${Theme.Surface.Surface_20};
+  flex: 1;
 `;

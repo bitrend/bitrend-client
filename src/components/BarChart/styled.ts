@@ -47,14 +47,14 @@ export const BarWrapper = styled.div`
 
 export const BarMainWrapper = styled.div`
   display: flex;
-  width: 35rem;
-  /* width 나중에 flex: {}로 수정 필요 */
+  width: 100%;
   flex-direction: column;
   align-items: flex-start;
   gap: ${Gap.Gap_8};
+  align-self: stretch;
 `
 
-export const BarDistribution = styled.h1`
+export const BarDistribution = styled.div`
   ${Text.Label.M};
   color : ${Theme.Text.Text_10};
 `

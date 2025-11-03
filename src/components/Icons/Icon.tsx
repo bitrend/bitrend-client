@@ -19,8 +19,8 @@ const sizeToFontSize: Record<IconSize, number> = {
 
 const sizeToWeight: Record<IconSize, number> = {
   XXS: 300,
-  XS: 200,
-  S: 300,
+  XS: 300,
+  S: 200,
   M: 300,
   L: 300,
 };
