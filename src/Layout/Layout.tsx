@@ -11,10 +11,10 @@ export function Layout({ children }: Props) {
   return (
     <_.Main>
       <Sidebar />
-      <>
+      <_.Content>
         <Header />
         {children}
-      </>
+      </_.Content>
     </_.Main>
   );
 }

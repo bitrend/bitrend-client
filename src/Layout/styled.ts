@@ -11,3 +11,11 @@ export const Main = styled.main`
   outline: 1px solid ${Theme.Stroke.Stroke_Main};
   outline-offset: -1px;
 `;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+`;
