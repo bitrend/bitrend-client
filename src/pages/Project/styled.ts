@@ -85,6 +85,17 @@ export const ProjectCardContent = styled.div`
 export const CheckboxWrapper = styled.div`
   display: flex;
   flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:active {
+    opacity: 0.5;
+  }
 `;
 
 export const ProjectInfo = styled.div`

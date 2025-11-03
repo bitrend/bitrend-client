@@ -85,9 +85,10 @@ const mockProjects: Project[] = [
 
 interface SortableProjectCardProps {
   project: Project;
+  onToggleComplete: (id: string) => void;
 }
 
-function SortableProjectCard({ project }: SortableProjectCardProps) {
+function SortableProjectCard({ project, onToggleComplete }: SortableProjectCardProps) {
   const {
     attributes,
     listeners,
@@ -110,7 +111,7 @@ function SortableProjectCard({ project }: SortableProjectCardProps) {
       isCompleted={project.isCompleted}
     >
       <_.ProjectCardContent>
-        <_.CheckboxWrapper>
+        <_.CheckboxWrapper onClick={() => onToggleComplete(project.id)}>
           <Icon
             size="L"
             color={
@@ -187,6 +188,14 @@ export function Project() {
     }
   };
 
+  const handleToggleComplete = (id: string) => {
+    setProjects((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, isCompleted: !item.isCompleted } : item
+      )
+    );
+  };
+
   return (
     <_.Container>
       <_.Header>
@@ -211,7 +220,11 @@ export function Project() {
         >
           <_.ProjectList>
             {projects.map((project) => (
-              <SortableProjectCard key={project.id} project={project} />
+              <SortableProjectCard 
+                key={project.id} 
+                project={project}
+                onToggleComplete={handleToggleComplete}
+              />
             ))}
           </_.ProjectList>
         </SortableContext>
