@@ -6,16 +6,16 @@ export const Container = styled.div`
   flex-direction: column;
   gap: ${Gap.Gap_20};
   padding: ${Gap.Gap_32};
-  width: 100%;
   flex: 1;
   overflow-y: auto;
+  box-sizing: border-box;
 `;
 
 export const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  flex-shrink: 0;
 `;
 
 export const HeaderLeft = styled.div`
@@ -55,7 +55,6 @@ export const ProjectList = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${Gap.Gap_16};
-  width: 100%;
 `;
 
 export const ProjectCard = styled.div<{ isCompleted: boolean }>`

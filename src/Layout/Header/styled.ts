@@ -7,7 +7,8 @@ export const HeaderContainer = styled.header`
   padding: 0 ${Gap.Gap_32};
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
 
   box-shadow: inset 0 -1px 0 0 ${Theme.Stroke.Stroke_Main};
 `;

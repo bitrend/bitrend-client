@@ -17,5 +17,6 @@ export const Content = styled.div`
   flex-direction: column;
   flex: 1;
   height: 100%;
+  min-width: 0;
   overflow: hidden;
 `;
