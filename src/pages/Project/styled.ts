@@ -4,18 +4,23 @@ import { Gap, Radius, Text, Theme } from "../../Theme/theme";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${Gap.Gap_20};
-  padding: ${Gap.Gap_32};
   flex: 1;
   overflow-y: auto;
   box-sizing: border-box;
 `;
 
 export const Header = styled.div`
+  position: sticky;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
+  background-color: ${Theme.Surface.Surface_10};
+  padding: ${Gap.Gap_32};
+  padding-bottom: ${Gap.Gap_20};
+  margin: 0 1px;
+  z-index: 100;
 `;
 
 export const HeaderLeft = styled.div`
@@ -55,6 +60,7 @@ export const ProjectList = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${Gap.Gap_16};
+  padding: 0 ${Gap.Gap_32} ${Gap.Gap_32};
 `;
 
 export const ProjectCard = styled.div<{ isCompleted: boolean }>`
