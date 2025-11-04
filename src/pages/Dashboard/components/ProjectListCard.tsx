@@ -133,7 +133,7 @@ const ProjectDescription = styled.div`
 `;
 
 const ProjectListWrapper = styled.div`
-  flex: 1 1 38%;
+  flex: 1 0 0;
   min-width: 28rem;
   height: 18.625rem;
 `;

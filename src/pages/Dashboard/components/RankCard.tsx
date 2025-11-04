@@ -54,9 +54,9 @@ const RankCard = () => {
 };
 
 const RankCardWrapper = styled.div`
-  flex: 1 1 37%;
-  min-width: 30rem;
+  width: 34.5rem;
   height: 18.625rem;
+  flex-shrink: 0;
 `;
 
 const CardHeader = styled.div`

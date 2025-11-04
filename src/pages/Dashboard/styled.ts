@@ -57,7 +57,6 @@ export const CardsGrid = styled.div`
   flex-wrap: wrap;
   align-items: flex-start;
   align-content: flex-start;
-  gap: 1rem;
+  gap: ${Gap.Gap_16};
   align-self: stretch;
-  width: 100%;
 `;

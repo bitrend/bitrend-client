@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-type IconSize = "XXS" | "XS" | "S" | "M" | "L";
+type IconSize = "XXS" | "XS" | "S" | "M" | "L" | "XL";
 
 interface Props {
   children: ReactNode;
@@ -15,6 +15,7 @@ const sizeToFontSize: Record<IconSize, number> = {
   S: 26,
   M: 30,
   L: 36,
+  XL: 96,
 };
 
 const sizeToWeight: Record<IconSize, number> = {
@@ -23,6 +24,7 @@ const sizeToWeight: Record<IconSize, number> = {
   S: 200,
   M: 300,
   L: 300,
+  XL: 300,
 };
 
 export function Icon({ children, color, size = "M", fill = false }: Props) {

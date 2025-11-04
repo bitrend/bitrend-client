@@ -9,7 +9,7 @@ const UserProfileCard = () => {
     <UserProfileWrapper>
       <MainCard>
         <ProfileImageWrapper>
-          <Icon size="M" color={Theme.Text.Text_10} fill>person</Icon>
+          <Icon size="XL" color={Theme.Text.Text_10} fill>person</Icon>
         </ProfileImageWrapper>
 
         <UserInfo>
@@ -34,9 +34,9 @@ const UserProfileCard = () => {
 };
 
 const UserProfileWrapper = styled.div`
-  flex: 0 1 23%;
-  min-width: 20rem;
+  width: 21rem;
   height: 18.625rem;
+  flex-shrink: 0;
 `;
 
 const ProfileImageWrapper = styled.div`

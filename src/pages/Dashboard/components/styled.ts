@@ -140,7 +140,7 @@ export const LegendAmount = styled.div`
 
 // Binaries Variation Card
 export const BinariesVariationWrapper = styled.div`
-  flex: 1 1 60%;
+  flex: 1 0 0;
   min-width: 50rem;
   height: 31.25rem;
 `;

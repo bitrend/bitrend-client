@@ -74,8 +74,8 @@ const TotalBinariesCard = () => {
 };
 
 const TotalBinariesWrapper = styled.div`
-  flex: 1 1 38%;
-  min-width: 30rem;
+  width: 35rem;
+  flex-shrink: 0;
 `;
 
 export default TotalBinariesCard;
