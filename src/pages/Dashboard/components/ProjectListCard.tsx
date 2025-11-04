@@ -64,7 +64,6 @@ const ExpandButton = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.625rem;
   border-radius: ${Radius.radius_6};
   border: 1px solid ${Theme.Stroke.Stroke_10};
   background: ${Theme.Surface.Surface_30};
@@ -92,14 +91,14 @@ const ProjectContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: ${Gap.Gap_8};
 `;
 
 const ProjectNameSection = styled.div`
   display: flex;
   align-items: center;
   gap: ${Gap.Gap_6};
-  flex-wrap: wrap;
+  max-width: 27.5rem;
 `;
 
 const ProjectName = styled.div<{ isLink: boolean }>`

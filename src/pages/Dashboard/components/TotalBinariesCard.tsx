@@ -75,6 +75,7 @@ const TotalBinariesCard = () => {
 
 const TotalBinariesWrapper = styled.div`
   width: 35rem;
+  height: 31.25rem;
   flex-shrink: 0;
 `;
 

@@ -77,7 +77,6 @@ const ExpandButton = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.625rem;
   border-radius: ${Radius.radius_6};
   border: 1px solid ${Theme.Stroke.Stroke_10};
   background: ${Theme.Surface.Surface_30};
