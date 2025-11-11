@@ -12,7 +12,7 @@ type BarChartProps = {
 
 const BarChart = (props: BarChartProps) => {
   return (
-    <div>
+    <_.BarChartWrapper>
       <_.BarMainWrapper>
         <_.BarDistribution>{props.distribution}</_.BarDistribution>
         <_.BarWrapper>
@@ -39,7 +39,7 @@ const BarChart = (props: BarChartProps) => {
           </_.BarContainer>
         </_.BarWrapper>
       </_.BarMainWrapper>
-    </div>
+    </_.BarChartWrapper>
   )
 }
 

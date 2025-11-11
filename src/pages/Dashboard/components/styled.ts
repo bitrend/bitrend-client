@@ -183,9 +183,45 @@ export const ChartTypeToggle = styled.div`
   background: ${Theme.Surface.Surface_10};
 `;
 
+export const ToggleButton = styled.button<{ active?: boolean }>`
+  display: flex;
+  width: 2.875rem;
+  height: 2.875rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${Radius.radius_12};
+  border: 1px solid ${(props) => props.active ? Theme.Stroke.Stroke_10 : 'transparent'};
+  background: ${(props) => props.active ? Theme.Surface.Surface_30 : 'transparent'};
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
 export const ToggleText = styled.div<{ active?: boolean }>`
   ${Text.Label.S}
   color: ${Theme.Text.Text_20};
+`;
+
+export const FullscreenButton = styled.button`
+  display: flex;
+  width: 3.125rem;
+  height: 3.125rem;
+  padding: ${Gap.Gap_12};
+  align-items: center;
+  justify-content: center;
+  gap: ${Gap.Gap_8};
+  border-radius: ${Radius.radius_12};
+  border: 1px solid ${Theme.Stroke.Stroke_10};
+  background: ${Theme.Surface.Surface_30};
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export const ChartArea = styled.div`
