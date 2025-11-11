@@ -19,10 +19,18 @@ const sizeToFontSize: Record<IconSize, number> = {
 
 const sizeToWeight: Record<IconSize, number> = {
   XXS: 300,
-  XS: 200,
-  S: 300,
+  XS: 300,
+  S: 200,
   M: 300,
   L: 300,
+};
+
+const sizeToOpsz: Record<IconSize, number> = {
+  XXS: 20,
+  XS: 20,
+  S: 26,
+  M: 30,
+  L: 36,
 };
 
 export function Icon({ children, color, size = "M", fill = false }: Props) {
@@ -34,9 +42,11 @@ export function Icon({ children, color, size = "M", fill = false }: Props) {
         fontSize: sizeToFontSize[size],
         color: color,
         fontWeight: sizeToWeight[size],
-        fontVariationSettings: `'FILL' ${
-          fill ? 1 : 0
-        }, 'GRAD' 0, 'opsz' 48dp, 'wght' ${sizeToWeight[size]}`,
+        fontVariationSettings: `
+          'FILL' ${fill ? 1 : 0},
+          'GRAD' 0, 
+          'opsz' ${sizeToOpsz[size]}, 
+          'wght' ${sizeToWeight[size]}`,
       }}
     >
       {children}
