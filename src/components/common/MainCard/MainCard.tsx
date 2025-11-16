@@ -6,8 +6,10 @@ export const MainCard = styled.div`
   padding: ${Gap.Gap_24};
   flex-direction: column;
   align-items: flex-start;
-  gap: ${Gap.Gap_24};
+  gap: ${Gap.Gap_16};
   border-radius: ${Radius.radius_20};
   border: 1px solid ${Theme.Stroke.Stroke_Main};
   background: ${Theme.Surface.Surface_20};
+  height: 100%;
+  box-sizing: border-box;
 `;
