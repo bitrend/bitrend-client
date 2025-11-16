@@ -13,6 +13,7 @@ export function Layout({ children }: Props) {
       <Sidebar />
       <_.Content>
         <Header />
+        <_.ContentWrapper>
         {children}
       </_.Content>
     </_.Main>

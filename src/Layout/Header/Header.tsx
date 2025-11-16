@@ -32,7 +32,7 @@ export function Header() {
             <_.SearchInput placeholder='Search for here' />
           </_.IconAndInputContainer>
           <_.KeyboardShortcutsContainer>
-            <Icon size='XXS' color={Theme.Text.Text_20}>
+            <Icon size='XXXS' color={Theme.Text.Text_20} fill>
               keyboard_command_key
             </Icon>
             <_.ShortcutText>K</_.ShortcutText>

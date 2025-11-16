@@ -35,7 +35,8 @@ export const BarContainer = styled.div<BarContainerProps>`
   flex-direction: column;
   align-items: flex-start;
   gap: ${Gap.Gap_8};
-  width: calc((100% - ${Gap.Gap_4}*${(props) => props.pcs-1}) * 0.${(props) => props.percent});
+  width: calc((100% - ${Gap.Gap_4} * ${(props) => props.pcs - 1}) * ${(props) => props.percent / 100});
+  flex-shrink: 0;
 `
 
 export const BarWrapper = styled.div`
@@ -43,18 +44,28 @@ export const BarWrapper = styled.div`
   align-items: flex-start;
   gap: ${Gap.Gap_4};
   width: 100%;
+  flex: 1;
+  min-width: 0;
 `
 
 export const BarMainWrapper = styled.div`
   display: flex;
-  width: 35rem;
-  /* width 나중에 flex: {}로 수정 필요 */
+  width: 100%;
   flex-direction: column;
   align-items: flex-start;
   gap: ${Gap.Gap_8};
+  align-self: stretch;
+  flex: 1;
+  min-width: 0;
 `
 
-export const BarDistribution = styled.h1`
+export const BarDistribution = styled.div`
   ${Text.Label.M};
   color : ${Theme.Text.Text_10};
+`
+
+export const BarChartWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 `
