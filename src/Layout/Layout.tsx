@@ -14,7 +14,8 @@ export function Layout({ children }: Props) {
       <_.Content>
         <Header />
         <_.ContentWrapper>
-        {children}
+          {children}
+        </_.ContentWrapper>
       </_.Content>
     </_.Main>
   );

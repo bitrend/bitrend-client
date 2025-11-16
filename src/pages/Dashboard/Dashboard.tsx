@@ -8,7 +8,7 @@ import TotalBinariesCard from "./components/TotalBinariesCard";
 import BinariesVariationCard from "./components/BinariesVariationCard";
 import * as _ from "./styled";
 
-const Dashboard = () => {
+export function Dashboard() {
   const userName = "Stephan";
 
   return (
