@@ -141,7 +141,7 @@ export const Text = {
   Label: {
     M: css`
       font-size: 0.875rem;
-      line-height: 1rem;
+      line-height: 1.125rem;
       font-weight: 400;
     `,
     S: css`

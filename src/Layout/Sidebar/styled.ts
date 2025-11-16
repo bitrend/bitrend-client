@@ -4,11 +4,9 @@ import { Gap, Theme } from "../../Theme/theme";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   justify-content: center;
-  align-self: stretch;
+
   width: 20.5rem;
-  flex-shrink: 0;
   border-right: 1px solid ${Theme.Stroke.Stroke_Main};
 `;
 

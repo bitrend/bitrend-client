@@ -19,13 +19,11 @@ export const LayoutWrapper = styled.div`
   align-self: stretch;
 `;
 
-export const ContentWrapper = styled.div`
+export const Content = styled.div`
   display: flex;
-  padding: ${Gap.Gap_32};
   flex-direction: column;
-  align-items: flex-start;
-  gap: ${Gap.Gap_20};
-  flex: 1 0 0;
-  align-self: stretch;
-  overflow-y: auto;
+  flex: 1;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
 `;

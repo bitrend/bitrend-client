@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import * as _ from "./styled";
 import SidebarLogo from "../../assets/LogoOnsidebar.svg";
 import { Icon } from "../../components/Icons/Icon";
@@ -7,6 +8,8 @@ import github from "../../assets/github.svg";
 import { VIP } from "../components/VIP/VIP";
 
 export function Sidebar() {
+  const navigate = useNavigate();
+
   return (
     <_.Container>
       <_.Head>
@@ -16,10 +19,18 @@ export function Sidebar() {
         </Icon>
       </_.Head>
       <_.BoxFill>
-        <NavMenu icon="dashboard">Dashboard</NavMenu>
-        <NavMenu icon="workspaces">Project</NavMenu>
-        <NavMenu icon="bar_chart">Analytics</NavMenu>
-        <NavMenu icon="person">User</NavMenu>
+        <NavMenu icon="dashboard" onClick={() => navigate("/dashboard")}>
+          Dashboard
+        </NavMenu>
+        <NavMenu icon="workspaces" onClick={() => navigate("/project")}>
+          Project
+        </NavMenu>
+        <NavMenu icon="bar_chart" onClick={() => navigate("/analytics")}>
+          Analytics
+        </NavMenu>
+        <NavMenu icon="person" onClick={() => navigate("/user")}>
+          User
+        </NavMenu>
       </_.BoxFill>
       <_.Box>
         <NavMenu icon="settings_b_roll">Settings</NavMenu>

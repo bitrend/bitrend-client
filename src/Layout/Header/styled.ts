@@ -7,9 +7,10 @@ export const HeaderContainer = styled.header`
   padding: 0 ${Gap.Gap_32};
   justify-content: space-between;
   align-items: center;
-  align-self: stretch;
+  box-sizing: border-box;
   flex-shrink: 0;
-  border-bottom: 1px solid ${Theme.Stroke.Stroke_Main};
+
+  box-shadow: inset 0 -1px 0 0 ${Theme.Stroke.Stroke_Main};
 `;
 
 export const Section = styled.div`

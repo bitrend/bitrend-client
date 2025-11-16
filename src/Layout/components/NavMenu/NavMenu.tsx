@@ -6,11 +6,12 @@ import { Icon } from "../../../components/Icons/Icon";
 interface props {
   children: ReactNode;
   icon?: string;
+  onClick?: () => void;
 }
 
-export function NavMenu({ children, icon }: props) {
+export function NavMenu({ children, icon, onClick }: props) {
   return (
-    <_.Container>
+    <_.Container onClick={onClick}>
       <_.Box>
         {icon && (
           <Icon size="S" color={Theme.Text.Text_30}>
