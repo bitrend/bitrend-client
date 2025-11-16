@@ -18,10 +18,11 @@ export const Head = styled.div<{ isFolded: boolean }>`
   justify-content: ${({ isFolded }) => (isFolded ? "center" : "space-between")};
 
   align-items: center;
-  align-self: stretch;
   box-sizing: border-box;
+
   padding: ${Gap.Gap_24} ${Gap.Gap_32};
-  border-bottom: 1px solid ${Theme.Stroke.Stroke_Main};
+
+  box-shadow: inset 0 -1px 0 0 ${Theme.Stroke.Stroke_Main};
 `;
 
 export const SidebarLogo = styled.img<{ isFolded: boolean }>`
@@ -44,10 +45,7 @@ export const IconBox = styled.div`
 export const Box = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   padding: ${Gap.Gap_24} 0;
-  align-self: stretch;
-  border-top: 1px solid ${Theme.Stroke.Stroke_Main};
 `;
 
 export const BoxP = styled.div`
@@ -56,10 +54,8 @@ export const BoxP = styled.div`
 
 export const BoxFill = styled.div`
   display: flex;
-  flex: 1 0 0;
+  height: 100%;
   flex-direction: column;
-  align-items: flex-start;
-  align-self: stretch;
   padding: ${Gap.Gap_24} 0;
   position: relative;
 `;
