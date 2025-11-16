@@ -229,6 +229,7 @@ export const ChartArea = styled.div`
   height: 18rem;
   align-items: flex-start;
   align-self: stretch;
+  position: relative;
 `;
 
 export const ChartYAxis = styled.div`
@@ -237,6 +238,7 @@ export const ChartYAxis = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
+  width: fit-content;
 
   span {
     ${Text.Label.S}
@@ -245,10 +247,11 @@ export const ChartYAxis = styled.div`
 `;
 
 export const ChartContent = styled.div`
-  flex: 1;
+  position: absolute;
+  left: 1.75rem;
+  top: 0;
+  right: 0;
   height: 100%;
-  position: relative;
-  margin-left: ${Gap.Gap_16};
 `;
 
 export const ChartSvg = styled.svg`

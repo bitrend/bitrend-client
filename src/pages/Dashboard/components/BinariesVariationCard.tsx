@@ -18,6 +18,7 @@ const BinariesVariationCard = () => {
     { name: 'Sat', value: Math.round((260 - 110) / 260 * 20) }, // 11.5 -> 12
   ];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomDot = (props: any) => {
     const { cx, cy, payload } = props;
     // 5번째 데이터 포인트 (Fir)에만 특별한 스타일 적용
@@ -36,6 +37,7 @@ const BinariesVariationCard = () => {
     return null;
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload, label, coordinate }: any) => {
     if (active && payload && payload.length && coordinate) {
       // coordinate는 activeDot의 위치를 나타냅니다
@@ -190,18 +192,17 @@ const BinariesVariationCard = () => {
                 />
               </AreaChart>
             </ResponsiveContainer>
+            <_.ChartXAxis>
+              <span>Sun</span>
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fir</span>
+              <span>Sat</span>
+            </_.ChartXAxis>
           </_.ChartContent>
         </_.ChartArea>
-
-        <_.ChartXAxis>
-          <span>Sun</span>
-          <span>Mon</span>
-          <span>Tue</span>
-          <span>Wed</span>
-          <span>Thu</span>
-          <span>Fir</span>
-          <span>Sat</span>
-        </_.ChartXAxis>
       </MainCard>
     </_.BinariesVariationWrapper>
   );
