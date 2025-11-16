@@ -27,3 +27,11 @@ export const Content = styled.div`
   min-width: 0;
   overflow: hidden;
 `;
+
+export const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: ${Gap.Gap_24};
+  overflow: auto;
+`;
