@@ -3,11 +3,24 @@
  */
 
 /**
+ * User information from Backend Server
+ */
+export interface User {
+  id: number;
+  githubId: number;
+  username: string;
+  name: string;
+  email: string;
+  avatarUrl: string;
+}
+
+/**
  * Authentication state managed by the App component
  */
 export interface AuthState {
   isLogin: boolean;
-  accessToken: string;
+  token: string;
+  user: User | null;
 }
 
 /**
@@ -18,10 +31,11 @@ export interface TokenRequest {
 }
 
 /**
- * Response from Backend Server containing access token
+ * Response from Backend Server containing JWT token and user info
  */
 export interface TokenResponse {
-  accessToken: string;
+  token: string;
+  user: User;
 }
 
 /**
@@ -38,7 +52,7 @@ export interface GitHubUserInfo {
  * Props for Login component
  */
 export interface LoginProps {
-  // No props needed - component operates independently
+  errorMessage?: string;
 }
 
 /**
@@ -46,4 +60,11 @@ export interface LoginProps {
  */
 export interface MypageProps {
   accessToken: string;
+}
+
+/**
+ * Props for User component
+ */
+export interface UserProps {
+  user: User | null;
 }
