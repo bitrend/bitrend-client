@@ -29,6 +29,11 @@ export const LoginContent = styled.div`
   width: 100%;
 `;
 
+export const Logo = styled.img`
+  height: 40px;
+  width: auto;
+`;
+
 export const Title = styled.h1`
   ${Text.Title.L}
   color: ${Theme.Text.Text_10};

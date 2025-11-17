@@ -1,4 +1,5 @@
 import * as _ from "./styled";
+import SidebarLogo from "../../assets/LogoOnsidebar.svg";
 
 const GITHUB_LOGIN_URL = 'https://github.com/login/oauth/authorize?client_id=ee33270fac53d2e7b61c';
 
@@ -15,6 +16,7 @@ export function Login({ errorMessage }: LoginProps) {
     <_.LoginContainer>
       <_.LoginCard>
         <_.LoginContent>
+          <_.Logo src={SidebarLogo} alt="Bitrend Logo" />
           <_.Title>Bitrend에 오신 것을 환영합니다</_.Title>
           <_.Subtitle>GitHub 계정으로 로그인하여 시작하세요</_.Subtitle>
           
