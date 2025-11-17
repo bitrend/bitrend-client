@@ -21,8 +21,13 @@ function App() {
   });
 
   const [tokenError, setTokenError] = useState<string>("");
+  const [isProcessingCode, setIsProcessingCode] = useState<boolean>(false);
 
   const getAccessToken = async (authorizationCode: string) => {
+    if (isProcessingCode) return; // 이미 처리 중이면 중복 실행 방지
+    
+    setIsProcessingCode(true);
+    
     try {
       const response = await axios.post<TokenResponse>(
         "http://localhost:3000/api/auth/github/callback",
@@ -35,6 +40,9 @@ function App() {
         user: response.data.user,
       });
       setTokenError("");
+      
+      // URL에서 code 파라미터 제거
+      window.history.replaceState({}, document.title, window.location.pathname);
       navigate("/dashboard");
     } catch (error) {
       console.error("Token exchange failed:", error);
@@ -47,7 +55,12 @@ function App() {
       
       if (axios.isAxiosError(error)) {
         if (error.response) {
+          console.error("Server error details:", error.response.data);
           const errorMsg = error.response.data?.error || "서버 오류가 발생했습니다.";
+          const errorStack = error.response.data?.stack;
+          if (errorStack) {
+            console.error("Server stack trace:", errorStack);
+          }
           setTokenError(`로그인 실패: ${errorMsg}`);
         } else if (error.request) {
           setTokenError("로그인 실패: 서버에 연결할 수 없습니다. 네트워크를 확인해주세요.");
@@ -57,6 +70,12 @@ function App() {
       } else {
         setTokenError("로그인 실패: 알 수 없는 오류가 발생했습니다.");
       }
+      
+      // URL에서 code 파라미터 제거하고 로그인 페이지로
+      window.history.replaceState({}, document.title, "/login");
+      navigate("/login");
+    } finally {
+      setIsProcessingCode(false);
     }
   };
 
@@ -64,16 +83,12 @@ function App() {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     
-    if (code) {
+    if (code && !isProcessingCode) {
       getAccessToken(code);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!authState.isLogin && location.pathname !== "/login") {
+    } else if (!authState.isLogin && location.pathname !== "/login" && !code) {
       navigate("/login");
     }
-  }, [authState.isLogin, location.pathname, navigate]);
+  }, [location]);
 
   return (
     <Layout>

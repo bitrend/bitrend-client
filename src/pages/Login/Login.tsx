@@ -1,7 +1,9 @@
 import * as _ from "./styled";
 import SidebarLogo from "../../assets/LogoOnsidebar.svg";
 
-const GITHUB_LOGIN_URL = 'https://github.com/login/oauth/authorize?client_id=ee33270fac53d2e7b61c';
+const CLIENT_ID = 'Ov23liBfxe4PEkuNYFq8';
+const REDIRECT_URI = window.location.origin; // http://localhost:5173
+const GITHUB_LOGIN_URL = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
 
 interface LoginProps {
   errorMessage?: string;
