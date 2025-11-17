@@ -5,7 +5,7 @@ export const LoginContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  height: 100%;
   width: 100%;
   background: ${Theme.Surface.Surface_10};
 `;
