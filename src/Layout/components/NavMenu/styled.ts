@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { Color, Gap, Radius, Text, Theme } from "../../../Theme/theme";
-import { keyframes } from "@emotion/react";
 
 export const Container = styled.div`
   padding: ${Gap.Gap_6} ${Gap.Gap_24};
@@ -28,6 +27,7 @@ export const Box = styled.div<{ selected?: boolean; isFolded: Boolean }>`
         ? Color.GrayScale.GrayScale_70
         : Color.GrayScale.GrayScale_80};
   }
+  transition: ease-in-out all 0.2s;
 `;
 
 export const ChildrenWrapper = styled.div<{ isFolded: Boolean }>`

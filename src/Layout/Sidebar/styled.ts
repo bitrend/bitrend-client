@@ -15,7 +15,7 @@ export const Container = styled.div<{ isFolded: boolean }>`
 
 export const Head = styled.div<{ isFolded: boolean }>`
   display: flex;
-  justify-content: ${({ isFolded }) => (isFolded ? "center" : "space-between")};
+  justify-content: space-between;
 
   align-items: center;
   box-sizing: border-box;
@@ -27,6 +27,7 @@ export const Head = styled.div<{ isFolded: boolean }>`
 
 export const SidebarLogo = styled.img<{ isFolded: boolean }>`
   cursor: ${({ isFolded }) => (isFolded ? "pointer" : "")};
+  margin: 0 0.125rem;
 `;
 
 export const IconBox = styled.div`
