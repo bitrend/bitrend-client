@@ -97,6 +97,13 @@ export const Avatar = styled.div`
   color: ${Theme.Text.Text_10};
 `;
 
+export const AvatarImage = styled.img`
+  width: 6.5rem;
+  height: 6.5rem;
+  border-radius: ${Radius.radius_Max};
+  object-fit: cover;
+`;
+
 export const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
