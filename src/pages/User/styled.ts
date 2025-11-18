@@ -6,7 +6,6 @@ export const Container = styled.div`
   justify-content: center;
   align-items: flex-start;
   padding: ${Gap.Gap_42};
-  min-height: 100vh;
   width: 100%;
 `;
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { useStatio } from "statio-lib";
 import { Layout } from "./Layout/Layout";
 import { Project } from "./pages/Project/Project";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
@@ -8,17 +9,15 @@ import { Analytics } from "./pages/Analytics/Analytics";
 import { User } from "./pages/User/User";
 import { Login } from "./pages/Login/Login";
 import { Mypage } from "./pages/Mypage/Mypage";
-import type { AuthState, TokenResponse } from "./types/auth";
+import type { TokenResponse, User as UserType } from "./types/auth";
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [authState, setAuthState] = useState<AuthState>({
-    isLogin: false,
-    token: "",
-    user: null,
-  });
+  // Statio로 전역 상태 관리 (자동으로 localStorage에 저장됨)
+  const [token, setToken] = useStatio<string>('authToken', '');
+  const [user, setUser] = useStatio<UserType | null>('authUser', null);
 
   const [tokenError, setTokenError] = useState<string>("");
   const [isProcessingCode, setIsProcessingCode] = useState<boolean>(false);
@@ -34,11 +33,9 @@ function App() {
         { authorizationCode }
       );
       
-      setAuthState({
-        isLogin: true,
-        token: response.data.token,
-        user: response.data.user,
-      });
+      // Statio로 상태 업데이트 (자동으로 localStorage에 저장됨)
+      setToken(response.data.token);
+      setUser(response.data.user);
       setTokenError("");
       
       // URL에서 code 파라미터 제거
@@ -47,11 +44,9 @@ function App() {
     } catch (error) {
       console.error("Token exchange failed:", error);
       
-      setAuthState({
-        isLogin: false,
-        token: "",
-        user: null,
-      });
+      // 인증 실패 시 상태 초기화
+      setToken('');
+      setUser(null);
       
       if (axios.isAxiosError(error)) {
         if (error.response) {
@@ -85,10 +80,11 @@ function App() {
     
     if (code && !isProcessingCode) {
       getAccessToken(code);
-    } else if (!authState.isLogin && location.pathname !== "/login" && !code) {
+    } else if (!token && location.pathname !== "/login" && !code) {
+      // 토큰이 없으면 로그인 페이지로
       navigate("/login");
     }
-  }, [location]);
+  }, [location, token]);
 
   return (
     <Layout>
@@ -97,9 +93,9 @@ function App() {
         <Route path="/project" element={<Project />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/analytics" element={<Analytics />} />
-        <Route path="/user" element={<User user={authState.user} />} />
+        <Route path="/user" element={<User user={user} />} />
         <Route path="/login" element={<Login errorMessage={tokenError} />} />
-        <Route path="/mypage" element={<Mypage accessToken={authState.token} />} />
+        <Route path="/mypage" element={<Mypage accessToken={token} />} />
       </Routes>
     </Layout>
   );
