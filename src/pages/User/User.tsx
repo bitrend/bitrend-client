@@ -1,11 +1,13 @@
 import { Icon } from "../../components/Icons/Icon";
 import { Theme, Gap, Color } from "../../Theme/theme";
 import ActionableCard from "../../components/ActionableCard/ActionableCard";
+import Junior from "../../assets/tier.junior.svg";
 import * as _ from "./styled";
 
 export function User() {
   const userData = {
     name: "Stephan",
+    tier: Junior,
     email: "stephan@bitrend.com",
     joinDate: "2024.01.15",
     role: "Developer",
@@ -64,6 +66,7 @@ export function User() {
             <_.AvatarWrapper>
               <_.Avatar>{userData.avatar}</_.Avatar>
             </_.AvatarWrapper>
+
             <_.ProfileInfo>
               <_.UserName>{userData.name}</_.UserName>
               <_.UserEmail>{userData.email}</_.UserEmail>
@@ -82,6 +85,10 @@ export function User() {
                 </_.MetaItem>
               </_.UserMeta>
             </_.ProfileInfo>
+            <_.TierInfo>
+              <_.UserTier src={userData.tier} />
+              <_.Tier>Junior</_.Tier>
+            </_.TierInfo>
           </_.ProfileCard>
 
           <_.StatsGrid>
