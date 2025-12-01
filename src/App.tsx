@@ -17,7 +17,7 @@ function App() {
 
   // Statio로 전역 상태 관리 (자동으로 localStorage에 저장됨)
   const [token, setToken] = useStatio<string>('authToken', '');
-  const [user, setUser] = useStatio<UserType | null>('authUser', null);
+  const [, setUser] = useStatio<UserType | null>('authUser', null);
 
   const [tokenError, setTokenError] = useState<string>("");
   const [isProcessingCode, setIsProcessingCode] = useState<boolean>(false);
@@ -93,7 +93,7 @@ function App() {
         <Route path="/project" element={<Project />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/analytics" element={<Analytics />} />
-        <Route path="/user" element={<User user={user} />} />
+        <Route path="/user" element={<User />} />
         <Route path="/login" element={<Login errorMessage={tokenError} />} />
         <Route path="/mypage" element={<Mypage accessToken={token} />} />
       </Routes>

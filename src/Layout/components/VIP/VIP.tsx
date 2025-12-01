@@ -1,10 +1,10 @@
 import { Icon } from "../../../components/Icons/Icon";
 import { Theme } from "../../../Theme/theme";
 import * as _ from "./styled";
-import { useStatioSelector } from "statio-lib";
+import { useStatio } from "statio-lib";
 
 export function VIP() {
-  const isFolded = useStatioSelector("isFolded", Boolean);
+  const [isFolded] = useStatio("isFolded", false);
 
   return (
     <_.Container>

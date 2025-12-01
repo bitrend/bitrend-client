@@ -25,7 +25,7 @@ export const Container = styled.div`
   outline-offset: -1px;
 `;
 
-export const TextBox = styled.div<{ isFolded: Boolean }>`
+export const TextBox = styled.div<{ isFolded: boolean }>`
   display: flex;
   flex-direction: column;
   gap: ${Gap.Gap_8};

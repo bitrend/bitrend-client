@@ -1,12 +1,11 @@
 import styled from "@emotion/styled";
 import { Color, Gap, Radius, Text, Theme } from "../../../Theme/theme";
-import { keyframes } from "@emotion/react";
 
 export const Container = styled.div`
   padding: ${Gap.Gap_6} ${Gap.Gap_24};
 `;
 
-export const Box = styled.div<{ selected?: boolean; isFolded: Boolean }>`
+export const Box = styled.div<{ selected?: boolean; isFolded: boolean }>`
   display: flex;
   padding: ${Gap.Gap_16} ${Gap.Gap_20};
   gap: ${Gap.Gap_12};
@@ -30,7 +29,7 @@ export const Box = styled.div<{ selected?: boolean; isFolded: Boolean }>`
   }
 `;
 
-export const ChildrenWrapper = styled.div<{ isFolded: Boolean }>`
+export const ChildrenWrapper = styled.div<{ isFolded: boolean }>`
   opacity: ${(props) => (props.isFolded ? 0 : 1)};
   max-width: ${(props) => (props.isFolded ? "0" : "100%")};
   overflow: hidden;

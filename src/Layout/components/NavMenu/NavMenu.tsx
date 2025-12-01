@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import * as _ from "./styled";
 import { Theme } from "../../../Theme/theme";
 import { Icon } from "../../../components/Icons/Icon";
-import { useStatioSelector } from "statio-lib";
+import { useStatio } from "statio-lib";
 
 interface props {
   children: ReactNode;
@@ -12,7 +12,7 @@ interface props {
 }
 
 export function NavMenu({ children, icon, onClick, selected }: props) {
-  const isFolded = useStatioSelector("isFolded", Boolean);
+  const [isFolded] = useStatio("isFolded", false);
 
   return (
     <_.Container onClick={onClick}>
