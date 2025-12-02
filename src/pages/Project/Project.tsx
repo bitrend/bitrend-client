@@ -88,7 +88,10 @@ interface SortableProjectCardProps {
   onToggleComplete: (id: string) => void;
 }
 
-function SortableProjectCard({ project, onToggleComplete }: SortableProjectCardProps) {
+function SortableProjectCard({
+  project,
+  onToggleComplete,
+}: SortableProjectCardProps) {
   const {
     attributes,
     listeners,
@@ -117,7 +120,7 @@ function SortableProjectCard({ project, onToggleComplete }: SortableProjectCardP
             color={
               project.isCompleted
                 ? Theme.Functional.Primary
-                : Theme.Text.Text_30
+                : Theme.Text.Text_Translucence
             }
             fill={false}
           >
@@ -138,9 +141,7 @@ function SortableProjectCard({ project, onToggleComplete }: SortableProjectCardP
                 </_.BadgeText>
               </_.Badge>
             </_.ProjectNameRow>
-            <_.ProjectDescription>
-              {project.description}
-            </_.ProjectDescription>
+            <_.ProjectDescription>{project.description}</_.ProjectDescription>
           </_.ProjectHeader>
 
           <_.Tags>
@@ -152,11 +153,7 @@ function SortableProjectCard({ project, onToggleComplete }: SortableProjectCardP
       </_.ProjectCardContent>
 
       <_.DragHandle {...attributes} {...listeners}>
-        <Icon
-          size="L"
-          color={Theme.Text.Text_Translucence}
-          fill={false}
-        >
+        <Icon size="L" color={Theme.Text.Text_Translucence} fill={false}>
           drag_indicator
         </Icon>
       </_.DragHandle>
@@ -189,11 +186,19 @@ export function Project() {
   };
 
   const handleToggleComplete = (id: string) => {
-    setProjects((items) =>
-      items.map((item) =>
+    setProjects((items) => {
+      const currentItem = items.find((item) => item.id === id);
+      if (!currentItem) return items;
+
+      // If trying to check and already at limit, prevent it
+      if (!currentItem.isCompleted && completedCount >= 3) {
+        return items;
+      }
+
+      return items.map((item) =>
         item.id === id ? { ...item, isCompleted: !item.isCompleted } : item
-      )
-    );
+      );
+    });
   };
 
   return (
@@ -204,8 +209,8 @@ export function Project() {
           <_.Subtitle>{`{userName}님의 프로젝트 리스트 입니다!`}</_.Subtitle>
         </_.HeaderLeft>
         <_.Counter>
-          <_.CounterPrimary>{completedCount}</_.CounterPrimary>
-          <_.CounterSecondary> / {projects.length}</_.CounterSecondary>
+          <_.CounterPrimary>{completedCount}&nbsp;</_.CounterPrimary>
+          <_.CounterSecondary> / 3</_.CounterSecondary>
         </_.Counter>
       </_.Header>
 
@@ -220,8 +225,8 @@ export function Project() {
         >
           <_.ProjectList>
             {projects.map((project) => (
-              <SortableProjectCard 
-                key={project.id} 
+              <SortableProjectCard
+                key={project.id}
                 project={project}
                 onToggleComplete={handleToggleComplete}
               />
@@ -232,4 +237,3 @@ export function Project() {
     </_.Container>
   );
 }
-
