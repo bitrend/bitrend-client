@@ -75,6 +75,7 @@ export const ProfileCard = styled.div`
   border-radius: ${Radius.radius_20};
   flex: 1;
   min-width: 400px;
+  position: relative;
 `;
 
 export const AvatarWrapper = styled.div`
@@ -135,6 +136,44 @@ export const MetaItem = styled.div`
   gap: ${Gap.Gap_6};
   ${Text.Label.M}
   color: ${Theme.Text.Text_Translucence};
+`;
+
+export const TierInfo = styled.div`
+  position: absolute;
+  right: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${Gap.Gap_8};
+  padding: ${Gap.Gap_20};
+  background-color: ${Theme.Surface.Surface_20};
+  border: 1px solid ${Theme.Functional.Primary_Translucence};
+  border-radius: ${Radius.radius_16};
+  flex-shrink: 0;
+  transition: all 0.4s ease;
+
+  &:hover {
+    box-shadow: 0 0 20px rgba(255, 59, 121, 0.2);
+    scale: 1.1;
+    transform: translateY(-6px);
+  }
+`;
+
+export const UserTier = styled.img`
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 16px ${Theme.Functional.Primary_Translucence});
+`;
+
+export const Tier = styled.h4`
+  ${Text.Label.M}
+  color: ${Theme.Functional.Primary};
+  margin: 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 `;
 
 export const StatsGrid = styled.div`

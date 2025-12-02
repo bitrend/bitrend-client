@@ -5,6 +5,7 @@ import ActionableCard from "../../components/ActionableCard/ActionableCard";
 import { auth } from "../../utils/auth";
 import { getUserProfile, getUserStats, getUserActivities } from "../../api/userApi";
 import type { UserProfile, UserStats, UserActivity } from "../../types/user";
+import Junior from "../../assets/tier.junior.svg";
 import * as _ from "./styled";
 
 const ACTIVITY_ICON_MAP: Record<string, string> = {
@@ -53,6 +54,21 @@ export function User() {
         setLoading(false);
       }
     };
+  const userData = {
+    name: "Stephan",
+    tier: Junior,
+    email: "stephan@bitrend.com",
+    joinDate: "2024.01.15",
+    role: "Developer",
+    avatar: "S",
+  };
+
+  const stats = [
+    { label: "Total Projects", value: "12", icon: "folder" },
+    { label: "Completed", value: "8", icon: "check_circle" },
+    { label: "In Progress", value: "4", icon: "pending" },
+    { label: "Contributions", value: "156", icon: "code" },
+  ];
 
     fetchUserData();
   }, []);
@@ -126,6 +142,7 @@ export function User() {
                 <_.Avatar>{avatarInitial}</_.Avatar>
               )}
             </_.AvatarWrapper>
+
             <_.ProfileInfo>
               <_.UserName>{profile.name}</_.UserName>
               <_.UserEmail>{profile.email}</_.UserEmail>
@@ -144,6 +161,10 @@ export function User() {
                 </_.MetaItem>
               </_.UserMeta>
             </_.ProfileInfo>
+            <_.TierInfo>
+              <_.UserTier src={userData.tier} />
+              <_.Tier>Junior</_.Tier>
+            </_.TierInfo>
           </_.ProfileCard>
 
           <_.StatsGrid>

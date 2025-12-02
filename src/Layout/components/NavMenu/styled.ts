@@ -27,6 +27,7 @@ export const Box = styled.div<{ selected?: boolean; isFolded: boolean }>`
         ? Color.GrayScale.GrayScale_70
         : Color.GrayScale.GrayScale_80};
   }
+  transition: ease-in-out all 0.2s;
 `;
 
 export const ChildrenWrapper = styled.div<{ isFolded: boolean }>`
