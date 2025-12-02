@@ -30,11 +30,13 @@ const sizeToWeight: Record<IconSize, number> = {
 };
 
 const sizeToOpsz: Record<IconSize, number> = {
+  XXXS: 14,
   XXS: 20,
   XS: 20,
   S: 26,
   M: 30,
   L: 36,
+  XL: 96,
 };
 
 export function Icon({ children, color, size = "M", fill = false }: Props) {

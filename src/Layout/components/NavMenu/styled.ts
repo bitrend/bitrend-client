@@ -5,7 +5,7 @@ export const Container = styled.div`
   padding: ${Gap.Gap_6} ${Gap.Gap_24};
 `;
 
-export const Box = styled.div<{ selected?: boolean; isFolded: Boolean }>`
+export const Box = styled.div<{ selected?: boolean; isFolded: boolean }>`
   display: flex;
   padding: ${Gap.Gap_16} ${Gap.Gap_20};
   gap: ${Gap.Gap_12};
@@ -30,7 +30,7 @@ export const Box = styled.div<{ selected?: boolean; isFolded: Boolean }>`
   transition: ease-in-out all 0.2s;
 `;
 
-export const ChildrenWrapper = styled.div<{ isFolded: Boolean }>`
+export const ChildrenWrapper = styled.div<{ isFolded: boolean }>`
   opacity: ${(props) => (props.isFolded ? 0 : 1)};
   max-width: ${(props) => (props.isFolded ? "0" : "100%")};
   overflow: hidden;

@@ -1,10 +1,59 @@
+import { useEffect, useState } from "react";
 import { Icon } from "../../components/Icons/Icon";
 import { Theme, Gap, Color } from "../../Theme/theme";
 import ActionableCard from "../../components/ActionableCard/ActionableCard";
+import { auth } from "../../utils/auth";
+import { getUserProfile, getUserStats, getUserActivities } from "../../api/userApi";
+import type { UserProfile, UserStats, UserActivity } from "../../types/user";
 import Junior from "../../assets/tier.junior.svg";
 import * as _ from "./styled";
 
+const ACTIVITY_ICON_MAP: Record<string, string> = {
+  update: "edit",
+  complete: "check_circle",
+  create: "add_circle",
+  join: "group_add",
+  edit: "edit",
+  delete: "delete",
+};
+
 export function User() {
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [stats, setStats] = useState<UserStats | null>(null);
+  const [activities, setActivities] = useState<UserActivity[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const token = auth.getToken();
+        const user = auth.getUser();
+
+        if (!token || !user) {
+          setError("로그인이 필요합니다.");
+          return;
+        }
+
+        const [profileData, statsData, activitiesData] = await Promise.all([
+          getUserProfile(user.id, token),
+          getUserStats(user.id, token),
+          getUserActivities(user.id, token, 10),
+        ]);
+
+        setProfile(profileData);
+        setStats(statsData);
+        setActivities(activitiesData.activities);
+      } catch (err: any) {
+        console.error("Failed to fetch user data:", err);
+        setError(err?.error?.message || "데이터를 불러오는데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
   const userData = {
     name: "Stephan",
     tier: Junior,
@@ -21,27 +70,50 @@ export function User() {
     { label: "Contributions", value: "156", icon: "code" },
   ];
 
-  const recentActivity = [
-    { action: "Updated bitrend-client", time: "2 hours ago", icon: "edit" },
-    {
-      action: "Completed Statio project",
-      time: "1 day ago",
-      icon: "check_circle",
-    },
-    {
-      action: "Created new project LAYERED",
-      time: "3 days ago",
-      icon: "add_circle",
-    },
-    { action: "Joined Bitrend team", time: "1 week ago", icon: "group_add" },
+    fetchUserData();
+  }, []);
+
+  if (loading) {
+    return (
+      <_.Container>
+        <_.Header>
+          <_.HeaderLeft>
+            <_.Title>User Profile</_.Title>
+            <_.Subtitle>로딩 중...</_.Subtitle>
+          </_.HeaderLeft>
+        </_.Header>
+      </_.Container>
+    );
+  }
+
+  if (error || !profile || !stats) {
+    return (
+      <_.Container>
+        <_.Header>
+          <_.HeaderLeft>
+            <_.Title>User Profile</_.Title>
+            <_.Subtitle>{error || "데이터를 불러올 수 없습니다."}</_.Subtitle>
+          </_.HeaderLeft>
+        </_.Header>
+      </_.Container>
+    );
+  }
+
+  const statsData = [
+    { label: "Total Projects", value: stats.totalProjects.toString(), icon: "folder" },
+    { label: "Completed", value: stats.completedProjects.toString(), icon: "check_circle" },
+    { label: "In Progress", value: stats.inProgressProjects.toString(), icon: "pending" },
+    { label: "Contributions", value: stats.totalContributions.toString(), icon: "code" },
   ];
+
+  const avatarInitial = profile.name.charAt(0).toUpperCase();
 
   return (
     <_.Container>
       <_.Header>
         <_.HeaderLeft>
           <_.Title>User Profile</_.Title>
-          <_.Subtitle>{userData.name}님의 프로필 정보입니다!</_.Subtitle>
+          <_.Subtitle>{profile.name}님의 프로필 정보입니다!</_.Subtitle>
         </_.HeaderLeft>
         <_.HeaderRight>
           <ActionableCard
@@ -64,24 +136,28 @@ export function User() {
         <_.ProfileSection>
           <_.ProfileCard>
             <_.AvatarWrapper>
-              <_.Avatar>{userData.avatar}</_.Avatar>
+              {profile.avatarUrl ? (
+                <_.AvatarImage src={profile.avatarUrl} alt={profile.name} />
+              ) : (
+                <_.Avatar>{avatarInitial}</_.Avatar>
+              )}
             </_.AvatarWrapper>
 
             <_.ProfileInfo>
-              <_.UserName>{userData.name}</_.UserName>
-              <_.UserEmail>{userData.email}</_.UserEmail>
+              <_.UserName>{profile.name}</_.UserName>
+              <_.UserEmail>{profile.email}</_.UserEmail>
               <_.UserMeta>
                 <_.MetaItem>
                   <Icon size="XS" color={Theme.Text.Text_Translucence}>
                     work
                   </Icon>
-                  <span>{userData.role}</span>
+                  <span>{profile.role}</span>
                 </_.MetaItem>
                 <_.MetaItem>
                   <Icon size="XS" color={Theme.Text.Text_Translucence}>
                     calendar_today
                   </Icon>
-                  <span>Joined {userData.joinDate}</span>
+                  <span>Joined {profile.joinDate}</span>
                 </_.MetaItem>
               </_.UserMeta>
             </_.ProfileInfo>
@@ -92,7 +168,7 @@ export function User() {
           </_.ProfileCard>
 
           <_.StatsGrid>
-            {stats.map((stat, index) => (
+            {statsData.map((stat, index) => (
               <_.StatCard key={index}>
                 <_.StatIcon>
                   <Icon
@@ -114,19 +190,27 @@ export function User() {
         <_.ActivitySection>
           <_.SectionTitle>Recent Activity</_.SectionTitle>
           <_.ActivityList>
-            {recentActivity.map((activity, index) => (
-              <_.ActivityItem key={index}>
-                <_.ActivityIcon>
-                  <Icon size="S" color={Theme.Text.Text_30}>
-                    {activity.icon}
-                  </Icon>
-                </_.ActivityIcon>
+            {activities.length > 0 ? (
+              activities.map((activity) => (
+                <_.ActivityItem key={activity.id}>
+                  <_.ActivityIcon>
+                    <Icon size="S" color={Theme.Text.Text_30}>
+                      {ACTIVITY_ICON_MAP[activity.type] || "info"}
+                    </Icon>
+                  </_.ActivityIcon>
+                  <_.ActivityInfo>
+                    <_.ActivityAction>{activity.action}</_.ActivityAction>
+                    <_.ActivityTime>{activity.relativeTime}</_.ActivityTime>
+                  </_.ActivityInfo>
+                </_.ActivityItem>
+              ))
+            ) : (
+              <_.ActivityItem>
                 <_.ActivityInfo>
-                  <_.ActivityAction>{activity.action}</_.ActivityAction>
-                  <_.ActivityTime>{activity.time}</_.ActivityTime>
+                  <_.ActivityAction>최근 활동이 없습니다.</_.ActivityAction>
                 </_.ActivityInfo>
               </_.ActivityItem>
-            ))}
+            )}
           </_.ActivityList>
         </_.ActivitySection>
       </_.Content>
