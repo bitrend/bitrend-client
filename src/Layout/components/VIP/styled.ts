@@ -23,6 +23,18 @@ export const Container = styled.div`
 
   outline: 1px solid ${Theme.Stroke.Stroke_10};
   outline-offset: -1px;
+
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.02);
+    outline: 1px solid ${Theme.Functional.Primary};
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
 `;
 
 export const TextBox = styled.div<{ isFolded: Boolean }>`
