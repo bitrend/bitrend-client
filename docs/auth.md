@@ -144,23 +144,9 @@ if (auth.isAuthenticated()) {
 auth.logout();
 ```
 
-## 타입 정의 (src/types/auth.ts)
+## 타입 정의
 
-```typescript
-export interface User {
-  id: number;
-  githubId: number;
-  username: string;
-  name: string;
-  email: string;
-  avatarUrl: string;
-}
-
-export interface TokenResponse {
-  token: string;
-  user: User;
-}
-```
+TypeScript 타입 정의는 `src/types/auth.ts`에서 관리됩니다.
 
 ## 라우트 보호
 
