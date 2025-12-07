@@ -3,7 +3,11 @@ import { Icon } from "../../components/Icons/Icon";
 import { Theme, Gap, Color } from "../../Theme/theme";
 import ActionableCard from "../../components/ActionableCard/ActionableCard";
 import { auth } from "../../utils/auth";
-import { getUserProfile, getUserStats, getUserActivities } from "../../api/userApi";
+import {
+  getUserProfile,
+  getUserStats,
+  getUserActivities,
+} from "../../api/userApi";
 import type { UserProfile, UserStats, UserActivity } from "../../types/user";
 import Junior from "../../assets/tier.junior.svg";
 import * as _ from "./styled";
@@ -54,21 +58,6 @@ export function User() {
         setLoading(false);
       }
     };
-  const userData = {
-    name: "Stephan",
-    tier: Junior,
-    email: "stephan@bitrend.com",
-    joinDate: "2024.01.15",
-    role: "Developer",
-    avatar: "S",
-  };
-
-  const stats = [
-    { label: "Total Projects", value: "12", icon: "folder" },
-    { label: "Completed", value: "8", icon: "check_circle" },
-    { label: "In Progress", value: "4", icon: "pending" },
-    { label: "Contributions", value: "156", icon: "code" },
-  ];
 
     fetchUserData();
   }, []);
@@ -100,10 +89,26 @@ export function User() {
   }
 
   const statsData = [
-    { label: "Total Projects", value: stats.totalProjects.toString(), icon: "folder" },
-    { label: "Completed", value: stats.completedProjects.toString(), icon: "check_circle" },
-    { label: "In Progress", value: stats.inProgressProjects.toString(), icon: "pending" },
-    { label: "Contributions", value: stats.totalContributions.toString(), icon: "code" },
+    {
+      label: "Total Projects",
+      value: stats.totalProjects.toString(),
+      icon: "folder",
+    },
+    {
+      label: "Completed",
+      value: stats.completedProjects.toString(),
+      icon: "check_circle",
+    },
+    {
+      label: "In Progress",
+      value: stats.inProgressProjects.toString(),
+      icon: "pending",
+    },
+    {
+      label: "Contributions",
+      value: stats.totalContributions.toString(),
+      icon: "code",
+    },
   ];
 
   const avatarInitial = profile.name.charAt(0).toUpperCase();
@@ -162,7 +167,7 @@ export function User() {
               </_.UserMeta>
             </_.ProfileInfo>
             <_.TierInfo>
-              <_.UserTier src={userData.tier} />
+              <_.UserTier src={Junior} />
               <_.Tier>Junior</_.Tier>
             </_.TierInfo>
           </_.ProfileCard>
