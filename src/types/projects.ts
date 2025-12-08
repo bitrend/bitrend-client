@@ -44,6 +44,7 @@ export interface EvaluationProject {
   addedAt: string;
   lastEvaluatedAt?: string;
   priority: number;
+  isSelected: boolean;
 }
 
 // 프론트엔드 호환용 Project 인터페이스 (기존 코드와 호환)
@@ -68,7 +69,7 @@ export function evaluationProjectToProject(evalProject: EvaluationProject): Proj
     language: evalProject.githubRepo.language,
     license: evalProject.githubRepo.license,
     updatedAt: evalProject.githubRepo.updatedAt,
-    isCompleted: evalProject.evaluationStatus === 'completed',
+    isCompleted: evalProject.isSelected,
   };
 }
 

@@ -8,6 +8,7 @@ type CardProps = {
     paddingY?: string;
     gap?: string;
     borderColor?: string;
+    disabled?: boolean;
 };
 
 export const Card = styled.div<CardProps>`
@@ -23,4 +24,22 @@ export const Card = styled.div<CardProps>`
     outline: 1px solid ${(props) => props.borderColor};
     outline-offset: ${(props) => props.offset};
     background: ${(props) => props.bg};
+    
+    ${(props) => props.disabled && `
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    `}
+    
+    ${(props) => !props.disabled && `
+        cursor: pointer;
+        
+        &:hover {
+            opacity: 0.9;
+        }
+        
+        &:active {
+            opacity: 0.8;
+        }
+    `}
 `

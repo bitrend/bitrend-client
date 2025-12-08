@@ -4,11 +4,19 @@ import { Theme, Text } from "../../../Theme/theme";
 import styled from "@emotion/styled";
 import * as _ from "./styled";
 import { XAxis, YAxis, ResponsiveContainer, Area, AreaChart, CartesianGrid, Tooltip } from 'recharts';
+import type { DashboardSkillAnalysis } from "../../../types/analytics";
+import { skillAnalysisToBinaries } from "../../../types/analytics";
 
-const BinariesVariationCard = () => {
-  // 차트 데이터 (기존 SVG 경로: M50 200 L150 180 L250 160 L350 140 L450 120 L550 100 L650 130 L750 110)
-  // Y축 높이 260, 0B=260, 20B=0이므로 변환: value = (260 - y) / 260 * 20
-  const chartData = [
+interface BinariesVariationCardProps {
+  skillAnalysis?: DashboardSkillAnalysis;
+  loading?: boolean;
+}
+
+const BinariesVariationCard = ({ skillAnalysis }: BinariesVariationCardProps) => {
+  const binariesData = skillAnalysis ? skillAnalysisToBinaries(skillAnalysis) : null;
+
+  // Use data from API if available, otherwise fallback to mock data
+  const defaultChartData = [
     { name: 'Sun', value: Math.round((260 - 200) / 260 * 20) }, // 4.6 -> 5
     { name: 'Mon', value: Math.round((260 - 180) / 260 * 20) }, // 6.2 -> 6
     { name: 'Tue', value: Math.round((260 - 160) / 260 * 20) }, // 7.7 -> 8
@@ -17,6 +25,11 @@ const BinariesVariationCard = () => {
     { name: 'Fir', value: Math.round((260 - 100) / 260 * 20) }, // 12.3 -> 12
     { name: 'Sat', value: Math.round((260 - 110) / 260 * 20) }, // 11.5 -> 12
   ];
+
+  const chartData = binariesData?.variation.chartData.map(item => ({
+    name: item.date,
+    value: item.value
+  })) || defaultChartData;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomDot = (props: any) => {
@@ -103,16 +116,17 @@ const BinariesVariationCard = () => {
             <_.StatsSection>
               <_.MainStats>
                 <_.StatNumber secondary>increase</_.StatNumber>
-                <_.StatNumber medium primary>19Byte</_.StatNumber>
-                <_.StatNumber medium>5Bit</_.StatNumber>
+                <_.StatNumber medium primary>
+                  {binariesData?.variation.growth.absolute || "19Byte"}
+                </_.StatNumber>
               </_.MainStats>
 
               <_.StatsBadge>
                 <_.PercentageBadge>
                   <Icon size="XXS" color={Theme.Functional.Primary}>stat_1</Icon>
-                  <span>12%</span>
+                  <span>{`${binariesData?.variation.growth.percentage || 12}%`}</span>
                 </_.PercentageBadge>
-                <StatsDetailSingle>This week</StatsDetailSingle>
+                <StatsDetailSingle>{binariesData?.variation.growth.period || "This week"}</StatsDetailSingle>
               </_.StatsBadge>
             </_.StatsSection>
           </_.ChartHeaderLeft>

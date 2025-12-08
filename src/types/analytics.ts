@@ -3,6 +3,12 @@
  * API 문서: docs/analytics.md
  */
 
+// Score 타입
+export interface Score {
+  bit: number;
+  byte: number;
+}
+
 // 대시보드 응답
 export interface DashboardResponse {
   user: DashboardUser;
@@ -19,7 +25,7 @@ export interface DashboardUser {
   name: string;
   avatarUrl: string;
   skillLevel: string;
-  totalScore: number;
+  totalScore: Score;
   overallGrade: string;
 }
 
@@ -35,7 +41,7 @@ export interface DashboardEvaluationProject {
   description: string;
   isPublic: boolean;
   evaluationStatus: 'pending' | 'running' | 'completed' | 'failed';
-  evaluationScore?: number;
+  evaluationScore?: Score;
   evaluationGrade?: string;
   lastEvaluatedAt?: string;
   priority: number;
@@ -46,7 +52,7 @@ export interface EvaluationProjectsSummary {
   maxAllowed: number;
   completedEvaluations: number;
   pendingEvaluations: number;
-  overallScore?: number;
+  overallScore?: Score;
   availableSlots: number;
 }
 
@@ -58,7 +64,7 @@ export interface DashboardSkillAnalysis {
 }
 
 export interface SkillAnalysisTotal {
-  score: string;
+  score: Score;
   grade: string;
   skillLevel: string;
   growth: GrowthStats;
@@ -73,7 +79,7 @@ export interface SkillDistribution {
 
 export interface SkillCategory {
   percentage: number;
-  score: number;
+  score: Score;
   label: string;
   improvement?: string;
 }
@@ -111,28 +117,29 @@ export interface BinariesVariation {
 
 // Skill Analysis를 Binary 형태로 변환하는 유틸 함수용 타입
 export function skillAnalysisToBinaries(skillAnalysis: DashboardSkillAnalysis): BinariesData {
+  const { bit, byte } = skillAnalysis.total.score;
   return {
     total: {
-      size: skillAnalysis.total.score + "pts",
-      count: skillAnalysis.total.grade,
+      size: `${byte}Byte`,
+      count: `${bit}Bit`,
       growth: skillAnalysis.total.growth,
     },
     distribution: {
       codeQuality: {
         percentage: skillAnalysis.distribution.codeQuality.percentage,
-        size: skillAnalysis.distribution.codeQuality.score + "pts",
+        size: `${skillAnalysis.distribution.codeQuality.score.byte}Byte`,
         label: skillAnalysis.distribution.codeQuality.label,
         color: "#ff3b79"
       },
       projectStructure: {
         percentage: skillAnalysis.distribution.projectStructure.percentage,
-        size: skillAnalysis.distribution.projectStructure.score + "pts",
+        size: `${skillAnalysis.distribution.projectStructure.score.byte}Byte`,
         label: skillAnalysis.distribution.projectStructure.label,
         color: "#ff709d"
       },
       others: {
         percentage: skillAnalysis.distribution.skillAssessment.percentage,
-        size: skillAnalysis.distribution.skillAssessment.score + "pts",
+        size: `${skillAnalysis.distribution.skillAssessment.score.byte}Byte`,
         label: "Others",
         color: "#ff99b9"
       }
@@ -173,7 +180,7 @@ export interface RankingUser {
   username: string;
   name?: string;
   avatarUrl: string;
-  score: number;
+  score: Score;
   skillLevel?: string;
   change: number;
   evaluatedProjects?: number;

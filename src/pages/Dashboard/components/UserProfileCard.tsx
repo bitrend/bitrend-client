@@ -3,28 +3,58 @@ import { Icon } from "../../../components/Icons/Icon";
 import { Theme, Gap } from "../../../Theme/theme";
 import styled from "@emotion/styled";
 import { Text } from "../../../Theme/theme";
+import type { DashboardUser } from "../../../types/analytics";
 
-const UserProfileCard = () => {
+interface UserProfileCardProps {
+  user?: DashboardUser;
+  loading?: boolean;
+  error?: string | null;
+}
+
+const UserProfileCard = ({ user, loading, error }: UserProfileCardProps) => {
+  // Fallback 데이터
+  const displayUser = user || {
+    id: 0,
+    username: "user",
+    name: "Guest User",
+    avatarUrl: "",
+    skillLevel: "Beginner",
+    totalScore: { bit: 0, byte: 0 },
+    overallGrade: "N/A"
+  };
+
+  // totalScore가 제대로 된 객체인지 확인
+  const scoreText = displayUser.totalScore && typeof displayUser.totalScore === 'object' && 'byte' in displayUser.totalScore && 'bit' in displayUser.totalScore
+    ? `${displayUser.totalScore.byte}Byte ${displayUser.totalScore.bit}Bit`
+    : "0Byte 0Bit";
+
   return (
     <UserProfileWrapper>
       <MainCard>
         <ProfileImageWrapper>
-          <Icon size="XL" color={Theme.Text.Text_10} fill>person</Icon>
+          {displayUser.avatarUrl ? (
+            <ProfileImage src={displayUser.avatarUrl} alt={displayUser.name} />
+          ) : (
+            <Icon size="XL" color={Theme.Text.Text_10} fill>person</Icon>
+          )}
         </ProfileImageWrapper>
 
         <UserInfo>
-          <UserName>bbibbaroni</UserName>
-          <UserEmail>i89155345@gmail.com</UserEmail>
+          <UserName>{loading ? "로딩중..." : displayUser.name}</UserName>
+          <UserEmail>@{loading ? "..." : displayUser.username}</UserEmail>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
         </UserInfo>
 
         <StatsWrapper>
           <StatItem>
-            <StatValue>213Byte</StatValue>
+            <StatValue>
+              {loading ? "..." : scoreText}
+            </StatValue>
             <StatLabel>score</StatLabel>
           </StatItem>
           <Divider />
           <StatItem>
-            <StatValue>Junior</StatValue>
+            <StatValue>{loading ? "..." : displayUser.skillLevel}</StatValue>
             <StatLabel>rank</StatLabel>
           </StatItem>
         </StatsWrapper>
@@ -99,6 +129,20 @@ const Divider = styled.div`
   height: 2.5rem;
   border-radius: 999rem;
   background: ${Theme.Functional.Primary_Translucence};
+`;
+
+const ErrorMessage = styled.div`
+  ${Text.Label.S}
+  color: ${Theme.Functional.Error};
+  text-align: center;
+  margin-top: ${Gap.Gap_4};
+`;
+
+const ProfileImage = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 999rem;
+  object-fit: cover;
 `;
 
 export default UserProfileCard;

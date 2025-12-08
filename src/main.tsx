@@ -1,8 +1,19 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { globalStore, persistStatio } from "statio-lib";
 import "./index.css";
 import App from "./App.tsx";
+
+// QueryClient 생성
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 // Statio 설정: localStorage 자동 동기화
 const keyPrefix = "statio:";
@@ -28,7 +39,9 @@ globalStore.use(persistStatio({
 }));
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </QueryClientProvider>
 );

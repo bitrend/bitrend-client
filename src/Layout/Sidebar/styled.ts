@@ -68,7 +68,7 @@ export const GitHub = styled.div`
 `;
 export const GitHubIcon = styled.img``;
 
-export const GitHubLink = styled.a<{ isFolded: Boolean }>`
+export const GitHubLink = styled.a<{ isFolded: boolean }>`
   ${Text.Body.M}
   color: ${Theme.Text.Text_Translucence};
 

@@ -47,28 +47,13 @@ export function User() {
         setProfile(profileData);
         setStats(statsData);
         setActivities(activitiesData.activities);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Failed to fetch user data:", err);
-        setError(err?.error?.message || "데이터를 불러오는데 실패했습니다.");
+        setError((err as { error?: { message?: string } })?.error?.message || "데이터를 불러오는데 실패했습니다.");
       } finally {
         setLoading(false);
       }
     };
-  const userData = {
-    name: "Stephan",
-    tier: Junior,
-    email: "stephan@bitrend.com",
-    joinDate: "2024.01.15",
-    role: "Developer",
-    avatar: "S",
-  };
-
-  const stats = [
-    { label: "Total Projects", value: "12", icon: "folder" },
-    { label: "Completed", value: "8", icon: "check_circle" },
-    { label: "In Progress", value: "4", icon: "pending" },
-    { label: "Contributions", value: "156", icon: "code" },
-  ];
 
     fetchUserData();
   }, []);
@@ -162,7 +147,7 @@ export function User() {
               </_.UserMeta>
             </_.ProfileInfo>
             <_.TierInfo>
-              <_.UserTier src={userData.tier} />
+              <_.UserTier src={Junior} />
               <_.Tier>Junior</_.Tier>
             </_.TierInfo>
           </_.ProfileCard>

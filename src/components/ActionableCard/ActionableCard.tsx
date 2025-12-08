@@ -10,11 +10,21 @@ type ActionableCardProps = {
     paddingY?: string;
     gap?: string;
     borderColor?: string;
+    disabled?: boolean;
 };
 
-const ActionableCard = ({ bg, offset, onClick, children, paddingX, paddingY, gap, borderColor }: ActionableCardProps) => {
+const ActionableCard = ({ bg, offset, onClick, children, paddingX, paddingY, gap, borderColor, disabled }: ActionableCardProps) => {
   return (
-      <_.Card bg={bg} offset={offset} onClick={onClick} paddingX={paddingX} paddingY={paddingY} gap={gap} borderColor={borderColor}>
+      <_.Card 
+        bg={bg} 
+        offset={offset} 
+        onClick={disabled ? undefined : onClick} 
+        paddingX={paddingX} 
+        paddingY={paddingY} 
+        gap={gap} 
+        borderColor={borderColor}
+        disabled={disabled}
+      >
           {children}
       </_.Card>
   )
