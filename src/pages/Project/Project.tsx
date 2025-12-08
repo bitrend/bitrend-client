@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as _ from "./styled";
 import { Icon } from "../../components/Icons/Icon";
 import { Theme } from "../../Theme/theme";
+import { getEvaluationProjects, reorderProjects } from "../../api/projectsApi";
+import { auth } from "../../utils/auth";
+import type { EvaluationProject, ReorderProjectsRequest } from "../../types/projects";
 import {
   DndContext,
   closestCenter,
@@ -19,6 +22,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { evaluationProjectToProject } from "../../types/projects";
 
 interface Project {
   id: string;
@@ -30,58 +34,6 @@ interface Project {
   updatedAt: string;
   isCompleted: boolean;
 }
-
-const mockProjects: Project[] = [
-  {
-    id: "1",
-    name: "bitrend/bitrend-client",
-    description: "Description for here",
-    isPublic: true,
-    language: "TS",
-    license: "MIT",
-    updatedAt: "Update 4 days ago",
-    isCompleted: true,
-  },
-  {
-    id: "2",
-    name: "Statio",
-    description: "Description for here",
-    isPublic: true,
-    language: "TS",
-    license: "MIT",
-    updatedAt: "Update 4 days ago",
-    isCompleted: true,
-  },
-  {
-    id: "3",
-    name: "Statio-docs",
-    description: "Description for here",
-    isPublic: false,
-    language: "TS",
-    license: "MIT",
-    updatedAt: "Update 4 days ago",
-    isCompleted: true,
-  },
-  {
-    id: "4",
-    name: "LAYERED",
-    description: "Description for here",
-    isPublic: true,
-    language: "TS",
-    updatedAt: "Update 4 days ago",
-    isCompleted: false,
-  },
-  {
-    id: "5",
-    name: "React-Query",
-    description: "Description for here",
-    isPublic: true,
-    language: "TS",
-    license: "MIT",
-    updatedAt: "Update 4 days ago",
-    isCompleted: false,
-  },
-];
 
 interface SortableProjectCardProps {
   project: Project;
@@ -165,8 +117,43 @@ function SortableProjectCard({ project, onToggleComplete }: SortableProjectCardP
 }
 
 export function Project() {
-  const [projects, setProjects] = useState<Project[]>(mockProjects);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [evaluationProjects, setEvaluationProjects] = useState<EvaluationProject[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const completedCount = projects.filter((p) => p.isCompleted).length;
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const token = auth.getToken();
+        if (!token) {
+          setError("로그인이 필요합니다.");
+          return;
+        }
+
+        const data = await getEvaluationProjects(token);
+
+        // API 응답 구조 확인 및 안전한 처리
+        const evaluationProjects = data?.evaluationProjects || [];
+        setEvaluationProjects(evaluationProjects);
+
+        // Convert evaluation projects to the project format for UI compatibility
+        const convertedProjects = evaluationProjects.map(evaluationProjectToProject);
+        setProjects(convertedProjects);
+      } catch (err: unknown) {
+        console.error("Failed to fetch projects:", err);
+        setError((err as { error?: { message?: string } })?.error?.message || "프로젝트를 불러오는데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -175,16 +162,39 @@ export function Project() {
     })
   );
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
       setProjects((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
-
         return arrayMove(items, oldIndex, newIndex);
       });
+
+      // Update the evaluation projects order as well
+      const newEvalProjects = [...evaluationProjects];
+      const evalOldIndex = evaluationProjects.findIndex((item) => item.id === active.id);
+      const evalNewIndex = evaluationProjects.findIndex((item) => item.id === over.id);
+      const reorderedEvalProjects = arrayMove(newEvalProjects, evalOldIndex, evalNewIndex);
+      setEvaluationProjects(reorderedEvalProjects);
+
+      // Send reorder request to API
+      try {
+        const token = auth.getToken();
+        if (token) {
+          const reorderData: ReorderProjectsRequest = {
+            projectOrders: reorderedEvalProjects.map((project, index) => ({
+              evaluationProjectId: project.id,
+              priority: index + 1,
+            })),
+          };
+          await reorderProjects(token, reorderData);
+        }
+      } catch (err) {
+        console.error("Failed to reorder projects:", err);
+        // Could add a toast notification here
+      }
     }
   };
 
@@ -196,12 +206,38 @@ export function Project() {
     );
   };
 
+  if (loading) {
+    return (
+      <_.Container>
+        <_.Header>
+          <_.HeaderLeft>
+            <_.Title>Project</_.Title>
+            <_.Subtitle>프로젝트를 불러오는 중...</_.Subtitle>
+          </_.HeaderLeft>
+        </_.Header>
+      </_.Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <_.Container>
+        <_.Header>
+          <_.HeaderLeft>
+            <_.Title>Project</_.Title>
+            <_.Subtitle>{error}</_.Subtitle>
+          </_.HeaderLeft>
+        </_.Header>
+      </_.Container>
+    );
+  }
+
   return (
     <_.Container>
       <_.Header>
         <_.HeaderLeft>
           <_.Title>Project</_.Title>
-          <_.Subtitle>{`{userName}님의 프로젝트 리스트 입니다!`}</_.Subtitle>
+          <_.Subtitle>프로젝트 리스트 입니다!</_.Subtitle>
         </_.HeaderLeft>
         <_.Counter>
           <_.CounterPrimary>{completedCount}</_.CounterPrimary>
