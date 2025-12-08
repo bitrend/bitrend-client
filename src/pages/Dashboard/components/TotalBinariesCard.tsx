@@ -42,7 +42,15 @@ const TotalBinariesCard = ({ skillAnalysis, loading }: TotalBinariesCardProps) =
             </_.PercentageBadge>
             <_.StatsDetail>
               <span>
-                {loading ? "로딩..." : (binariesData?.total.growth.absolute ? String(binariesData.total.growth.absolute) : "+14Byte 2Bit")}
+                {loading ? "로딩..." : (() => {
+                  const absolute = binariesData?.total.growth.absolute;
+                  if (!absolute) return "+14Byte 2Bit";
+                  if (typeof absolute === 'string') return absolute;
+                  if (typeof absolute === 'object' && 'byte' in absolute && 'bit' in absolute) {
+                    return `+${absolute.byte}Byte ${absolute.bit}Bit`;
+                  }
+                  return String(absolute);
+                })()}
               </span>
               <span>in this check</span>
             </_.StatsDetail>

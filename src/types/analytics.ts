@@ -151,7 +151,7 @@ export function skillAnalysisToBinaries(skillAnalysis: DashboardSkillAnalysis): 
 // 공통 타입
 export interface GrowthStats {
   percentage: number;
-  absolute: string;
+  absolute: string | Score;  // API에서 Score 객체로 올 수도 있음
   period: string;
 }
 

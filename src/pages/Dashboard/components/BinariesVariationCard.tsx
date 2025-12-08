@@ -117,7 +117,15 @@ const BinariesVariationCard = ({ skillAnalysis }: BinariesVariationCardProps) =>
               <_.MainStats>
                 <_.StatNumber secondary>increase</_.StatNumber>
                 <_.StatNumber medium primary>
-                  {binariesData?.variation.growth.absolute || "19Byte"}
+                  {(() => {
+                    const absolute = binariesData?.variation.growth.absolute;
+                    if (!absolute) return "19Byte";
+                    if (typeof absolute === 'string') return absolute;
+                    if (typeof absolute === 'object' && 'byte' in absolute && 'bit' in absolute) {
+                      return `${absolute.byte}Byte ${absolute.bit}Bit`;
+                    }
+                    return String(absolute);
+                  })()}
                 </_.StatNumber>
               </_.MainStats>
 
