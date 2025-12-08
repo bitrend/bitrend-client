@@ -7,6 +7,7 @@ import { Project } from "./pages/Project/Project";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Analytics } from "./pages/Analytics/Analytics";
 import { User } from "./pages/User/User";
+import { OtherUser } from "./pages/OtherUser/OtherUser";
 import { Login } from "./pages/Login/Login";
 import { Mypage } from "./pages/Mypage/Mypage";
 import type { TokenResponse, User as UserType } from "./types/auth";
@@ -97,6 +98,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/user" element={<User />} />
+        <Route path="/user/:username" element={<OtherUser />} />
         <Route path="/login" element={<Login errorMessage={tokenError} />} />
         <Route path="/mypage" element={<Mypage accessToken={token} />} />
       </Routes>

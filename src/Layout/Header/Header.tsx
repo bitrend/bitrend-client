@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ActionableCard from "../../components/ActionableCard/ActionableCard";
 import { Gap, Theme } from "../../Theme/theme";
 import * as _ from "./styled";
@@ -8,8 +9,10 @@ import { useSearchContext } from "../Layout";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useSearch } from "../../hooks/useSearch";
 import { SearchResults } from "../../components/SearchResults/SearchResults";
+import { auth } from "../../utils/auth";
 
 export function Header() {
+  const navigate = useNavigate();
   const { isSearchExpanded, setIsSearchExpanded } = useSearchContext();
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,8 +33,18 @@ export function Header() {
   };
 
   const handleUserClick = (username: string) => {
-    // 사용자 프로필 페이지로 이동
-    window.location.href = `/user/${username}`;
+    const currentUser = auth.getUser();
+
+    // 본인 프로필인 경우 User 페이지로, 아니면 OtherUser 페이지로 이동
+    if (currentUser && username === currentUser.username) {
+      navigate("/user");
+    } else {
+      navigate(`/user/${username}`);
+    }
+
+    setIsSearchExpanded(false);
+    setSearchQuery("");
+    clearResults();
   };
 
   const handleSuggestionClick = (suggestion: string) => {
