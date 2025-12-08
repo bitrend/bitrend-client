@@ -4,6 +4,7 @@ import { Theme, Gap } from "../../../Theme/theme";
 import styled from "@emotion/styled";
 import { Text } from "../../../Theme/theme";
 import type { DashboardUser } from "../../../types/analytics";
+import { formatScore } from "../../../utils/scoreFormatter";
 
 interface UserProfileCardProps {
   user?: DashboardUser;
@@ -23,10 +24,8 @@ const UserProfileCard = ({ user, loading, error }: UserProfileCardProps) => {
     overallGrade: "N/A"
   };
 
-  // totalScore가 제대로 된 객체인지 확인
-  const scoreText = displayUser.totalScore && typeof displayUser.totalScore === 'object' && 'byte' in displayUser.totalScore && 'bit' in displayUser.totalScore
-    ? `${displayUser.totalScore.byte}Byte ${displayUser.totalScore.bit}Bit`
-    : "0Byte 0Bit";
+  // totalScore를 안전하게 문자열로 변환
+  const scoreText = formatScore(displayUser.totalScore);
 
   return (
     <UserProfileWrapper>

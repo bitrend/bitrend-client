@@ -6,6 +6,7 @@ import * as _ from "./styled";
 import { XAxis, YAxis, ResponsiveContainer, Area, AreaChart, CartesianGrid, Tooltip } from 'recharts';
 import type { DashboardSkillAnalysis } from "../../../types/analytics";
 import { skillAnalysisToBinaries } from "../../../types/analytics";
+import { formatGrowthAbsolute } from "../../../utils/scoreFormatter";
 
 interface BinariesVariationCardProps {
   skillAnalysis?: DashboardSkillAnalysis;
@@ -117,15 +118,7 @@ const BinariesVariationCard = ({ skillAnalysis }: BinariesVariationCardProps) =>
               <_.MainStats>
                 <_.StatNumber secondary>increase</_.StatNumber>
                 <_.StatNumber medium primary>
-                  {(() => {
-                    const absolute = binariesData?.variation.growth.absolute;
-                    if (!absolute) return "19Byte";
-                    if (typeof absolute === 'string') return absolute;
-                    if (typeof absolute === 'object' && 'byte' in absolute && 'bit' in absolute) {
-                      return `${absolute.byte}Byte ${absolute.bit}Bit`;
-                    }
-                    return String(absolute);
-                  })()}
+                  {formatGrowthAbsolute(binariesData?.variation.growth.absolute, '')}
                 </_.StatNumber>
               </_.MainStats>
 

@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 import * as _ from "./styled";
 import type { DashboardSkillAnalysis } from "../../../types/analytics";
 import { skillAnalysisToBinaries } from "../../../types/analytics";
+import { formatGrowthAbsolute } from "../../../utils/scoreFormatter";
 
 interface TotalBinariesCardProps {
   skillAnalysis?: DashboardSkillAnalysis;
@@ -42,15 +43,7 @@ const TotalBinariesCard = ({ skillAnalysis, loading }: TotalBinariesCardProps) =
             </_.PercentageBadge>
             <_.StatsDetail>
               <span>
-                {loading ? "로딩..." : (() => {
-                  const absolute = binariesData?.total.growth.absolute;
-                  if (!absolute) return "+14Byte 2Bit";
-                  if (typeof absolute === 'string') return absolute;
-                  if (typeof absolute === 'object' && 'byte' in absolute && 'bit' in absolute) {
-                    return `+${absolute.byte}Byte ${absolute.bit}Bit`;
-                  }
-                  return String(absolute);
-                })()}
+                {loading ? "로딩..." : formatGrowthAbsolute(binariesData?.total.growth.absolute, '+')}
               </span>
               <span>in this check</span>
             </_.StatsDetail>
