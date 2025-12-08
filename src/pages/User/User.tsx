@@ -3,7 +3,11 @@ import { Icon } from "../../components/Icons/Icon";
 import { Theme, Gap, Color } from "../../Theme/theme";
 import ActionableCard from "../../components/ActionableCard/ActionableCard";
 import { auth } from "../../utils/auth";
-import { getUserProfile, getUserStats, getUserActivities } from "../../api/userApi";
+import {
+  getUserProfile,
+  getUserStats,
+  getUserActivities,
+} from "../../api/userApi";
 import type { UserProfile, UserStats, UserActivity } from "../../types/user";
 import Junior from "../../assets/tier.junior.svg";
 import * as _ from "./styled";
@@ -85,10 +89,26 @@ export function User() {
   }
 
   const statsData = [
-    { label: "Total Projects", value: stats.totalProjects.toString(), icon: "folder" },
-    { label: "Completed", value: stats.completedProjects.toString(), icon: "check_circle" },
-    { label: "In Progress", value: stats.inProgressProjects.toString(), icon: "pending" },
-    { label: "Contributions", value: stats.totalContributions.toString(), icon: "code" },
+    {
+      label: "Total Projects",
+      value: stats.totalProjects.toString(),
+      icon: "folder",
+    },
+    {
+      label: "Completed",
+      value: stats.completedProjects.toString(),
+      icon: "check_circle",
+    },
+    {
+      label: "In Progress",
+      value: stats.inProgressProjects.toString(),
+      icon: "pending",
+    },
+    {
+      label: "Contributions",
+      value: stats.totalContributions.toString(),
+      icon: "code",
+    },
   ];
 
   const avatarInitial = profile.name.charAt(0).toUpperCase();

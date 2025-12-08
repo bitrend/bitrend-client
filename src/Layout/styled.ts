@@ -28,10 +28,17 @@ export const Content = styled.div`
   overflow: hidden;
 `;
 
-export const ContentWrapper = styled.div`
+export const ContentWrapper = styled.div<{ isDimmed?: boolean }>`
   display: flex;
   flex-direction: column;
   flex: 1;
   padding: ${Gap.Gap_24};
   overflow: auto;
+  opacity: ${(props) => (props.isDimmed ? 0.3 : 1)};
+  transition: opacity 0.2s ease-in-out;
+`;
+
+export const SidebarWrapper = styled.div<{ isDimmed?: boolean }>`
+  opacity: ${(props) => (props.isDimmed ? 0.3 : 1)};
+  transition: opacity 0.2s ease-in-out;
 `;

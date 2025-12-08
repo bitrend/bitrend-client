@@ -16,56 +16,59 @@ function App() {
   const location = useLocation();
 
   // Statio로 전역 상태 관리 (자동으로 localStorage에 저장됨)
-  const [token, setToken] = useStatio<string>('authToken', '');
-  const [, setUser] = useStatio<UserType | null>('authUser', null);
+  const [token, setToken] = useStatio<string>("authToken", "");
+  const [, setUser] = useStatio<UserType | null>("authUser", null);
 
   const [tokenError, setTokenError] = useState<string>("");
   const [isProcessingCode, setIsProcessingCode] = useState<boolean>(false);
 
   const getAccessToken = async (authorizationCode: string) => {
     if (isProcessingCode) return; // 이미 처리 중이면 중복 실행 방지
-    
+
     setIsProcessingCode(true);
-    
+
     try {
       const response = await axios.post<TokenResponse>(
         "http://localhost:3000/api/auth/github/callback",
         { authorizationCode }
       );
-      
+
       // Statio로 상태 업데이트 (자동으로 localStorage에 저장됨)
       setToken(response.data.token);
       setUser(response.data.user);
       setTokenError("");
-      
+
       // URL에서 code 파라미터 제거
       window.history.replaceState({}, document.title, window.location.pathname);
       navigate("/dashboard");
     } catch (error) {
       console.error("Token exchange failed:", error);
-      
+
       // 인증 실패 시 상태 초기화
-      setToken('');
+      setToken("");
       setUser(null);
-      
+
       if (axios.isAxiosError(error)) {
         if (error.response) {
           console.error("Server error details:", error.response.data);
-          const errorMsg = error.response.data?.error || "서버 오류가 발생했습니다.";
+          const errorMsg =
+            error.response.data?.error || "서버 오류가 발생했습니다.";
           const errorStack = error.response.data?.stack;
           if (errorStack) {
             console.error("Server stack trace:", errorStack);
           }
           setTokenError(`로그인 실패: ${errorMsg}`);
         } else if (error.request) {
-          setTokenError("로그인 실패: 서버에 연결할 수 없습니다. 네트워크를 확인해주세요.");
+          setTokenError(
+            "로그인 실패: 서버에 연결할 수 없습니다. 네트워크를 확인해주세요."
+          );
         } else {
           setTokenError("로그인 실패: 요청 처리 중 오류가 발생했습니다.");
         }
       } else {
         setTokenError("로그인 실패: 알 수 없는 오류가 발생했습니다.");
       }
-      
+
       // URL에서 code 파라미터 제거하고 로그인 페이지로
       window.history.replaceState({}, document.title, "/login");
       navigate("/login");
@@ -77,7 +80,7 @@ function App() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
-    
+
     if (code && !isProcessingCode) {
       getAccessToken(code);
     } else if (!token && location.pathname !== "/login" && !code) {

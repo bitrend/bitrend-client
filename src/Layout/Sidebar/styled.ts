@@ -7,6 +7,7 @@ export const Container = styled.div<{ isFolded: boolean }>`
   justify-content: center;
 
   width: ${({ isFolded }) => (isFolded ? "7.125rem" : "20.5rem")};
+  height: 100%;
 
   border-right: 1px solid ${Theme.Stroke.Stroke_Main};
 
