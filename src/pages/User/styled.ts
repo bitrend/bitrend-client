@@ -108,32 +108,41 @@ export const AvatarImage = styled.img`
 export const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${Gap.Gap_12};
+  gap: ${Gap.Gap_8};
   flex: 1;
 `;
 
-export const UserName = styled.h2`
+export const UserName = styled.span`
   ${Text.Main.M}
   color: ${Theme.Text.Text_10};
   margin: 0;
+
+  display: flex;
+  align-items: flex-end;
+  gap: ${Gap.Gap_6};
+`;
+
+export const UserId = styled.span`
+  ${Text.Body.M}
+  color: ${Theme.Text.Text_30};
 `;
 
 export const UserEmail = styled.p`
   ${Text.Body.M}
-  color: ${Theme.Text.Text_30};
+  color: ${Theme.Text.Text_Translucence};
   margin: 0;
 `;
 
 export const UserMeta = styled.div`
   display: flex;
-  gap: ${Gap.Gap_16};
+  gap: ${Gap.Gap_8};
   flex-wrap: wrap;
 `;
 
 export const MetaItem = styled.div`
   display: flex;
   align-items: center;
-  gap: ${Gap.Gap_6};
+  gap: ${Gap.Gap_4};
   ${Text.Label.M}
   color: ${Theme.Text.Text_Translucence};
 `;
@@ -285,4 +294,59 @@ export const ActivityAction = styled.div`
 export const ActivityTime = styled.div`
   ${Text.Label.M}
   color: ${Theme.Text.Text_Translucence};
+`;
+
+// Edit Form Styles
+export const EditForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${Gap.Gap_12};
+  width: 100%;
+`;
+
+export const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${Gap.Gap_4};
+`;
+
+export const FormLabel = styled.label`
+  ${Text.Label.S}
+  color: ${Theme.Text.Text_20};
+
+  margin-left: ${Gap.Gap_6};
+`;
+
+export const FormInput = styled.input<{ hasError?: boolean }>`
+  padding: ${Gap.Gap_12} ${Gap.Gap_16};
+  border: 1px solid
+    ${(props) =>
+      props.hasError ? Theme.Functional.Error : Theme.Stroke.Stroke_Main};
+  border-radius: ${Radius.radius_8};
+  background-color: ${Theme.Surface.Surface_10};
+  color: ${Theme.Text.Text_10};
+  ${Text.Body.S}
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: ${(props) =>
+      props.hasError ? Theme.Functional.Error : Theme.Functional.Primary};
+  }
+
+  &::placeholder {
+    color: ${Theme.Text.Text_Translucence};
+  }
+
+  &:hover {
+    border-color: ${(props) =>
+      props.hasError ? Theme.Functional.Error : Theme.Stroke.Stroke_20};
+  }
+`;
+
+export const FormError = styled.div`
+  ${Text.Label.S}
+  color: ${Theme.Functional.Primary_3rd};
+  margin-left: ${Gap.Gap_6};
+  margin-top: ${Gap.Gap_4};
 `;

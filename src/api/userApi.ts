@@ -2,13 +2,13 @@
  * User API functions
  */
 
-import { apiRequest } from '../utils/api';
+import { apiRequest } from "../utils/api";
 import type {
   UserProfile,
   UserStats,
   UserActivitiesResponse,
   UpdateUserProfileRequest,
-} from '../types/user';
+} from "../types/user";
 
 /**
  * 사용자 프로필 조회
@@ -18,7 +18,20 @@ export async function getUserProfile(
   token: string
 ): Promise<UserProfile> {
   return apiRequest<UserProfile>(`/api/users/${userId}`, {
-    method: 'GET',
+    method: "GET",
+    token,
+  });
+}
+
+/**
+ * username으로 사용자 프로필 조회
+ */
+export async function getUserProfileByUsername(
+  username: string,
+  token: string
+): Promise<UserProfile> {
+  return apiRequest<UserProfile>(`/api/users/others/${username}`, {
+    method: "GET",
     token,
   });
 }
@@ -31,7 +44,7 @@ export async function getUserStats(
   token: string
 ): Promise<UserStats> {
   return apiRequest<UserStats>(`/api/users/${userId}/stats`, {
-    method: 'GET',
+    method: "GET",
     token,
   });
 }
@@ -53,7 +66,7 @@ export async function getUserActivities(
   return apiRequest<UserActivitiesResponse>(
     `/api/users/${userId}/activities?${params}`,
     {
-      method: 'GET',
+      method: "GET",
       token,
     }
   );
@@ -68,8 +81,47 @@ export async function updateUserProfile(
   data: UpdateUserProfileRequest
 ): Promise<UserProfile> {
   return apiRequest<UserProfile>(`/api/users/${userId}`, {
-    method: 'PATCH',
+    method: "PATCH",
     token,
     body: JSON.stringify(data),
+  });
+}
+
+/**
+ * 사용자 팔로우
+ */
+export async function followUser(
+  userId: number,
+  token: string
+): Promise<{ followerId: number; followingId: number; createdAt: string }> {
+  return apiRequest(`/api/users/${userId}/follow`, {
+    method: "POST",
+    token,
+  });
+}
+
+/**
+ * 사용자 언팔로우
+ */
+export async function unfollowUser(
+  userId: number,
+  token: string
+): Promise<{ message: string }> {
+  return apiRequest(`/api/users/${userId}/follow`, {
+    method: "DELETE",
+    token,
+  });
+}
+
+/**
+ * 팔로우 상태 확인
+ */
+export async function checkFollowStatus(
+  userId: number,
+  token: string
+): Promise<{ isFollowing: boolean }> {
+  return apiRequest(`/api/users/${userId}/follow/status`, {
+    method: "GET",
+    token,
   });
 }

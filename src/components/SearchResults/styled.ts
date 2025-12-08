@@ -72,7 +72,7 @@ export const UserInfo = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: ${Gap.Gap_2};
+  gap: ${Gap.Gap_4};
   min-width: 0;
 `;
 

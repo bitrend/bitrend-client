@@ -1,5 +1,4 @@
-import React from "react";
-import { Gap, Theme } from "../../Theme/theme";
+import { Theme } from "../../Theme/theme";
 import { Icon } from "../Icons/Icon";
 import * as _ from "./styled";
 
@@ -16,7 +15,7 @@ interface SearchResultsProps {
   suggestions: string[];
   isLoading: boolean;
   error?: string | null;
-  onUserClick: (username: string) => void;
+  onUserClick?: (username: string) => void;
   onSuggestionClick: (suggestion: string) => void;
 }
 
@@ -59,7 +58,7 @@ export function SearchResults({
       <_.Container>
         <_.EmptyContainer>
           <Icon size="M" color={Theme.Text.Text_Translucence}>
-            search_off
+            unknown_document
           </Icon>
           <_.EmptyText>검색 결과가 없습니다</_.EmptyText>
         </_.EmptyContainer>
@@ -76,7 +75,7 @@ export function SearchResults({
             {users.map((user) => (
               <_.UserItem
                 key={user.id}
-                onClick={() => onUserClick(user.username)}
+                onClick={() => onUserClick?.(user.username)}
               >
                 <_.UserAvatar src={user.avatarUrl} alt={user.name} />
                 <_.UserInfo>
