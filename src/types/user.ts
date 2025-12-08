@@ -12,6 +12,7 @@ export interface UserProfile {
   avatarUrl: string;
   role: string;
   joinDate: string;
+  followerCount: number;
 }
 
 // 사용자 통계
@@ -23,7 +24,13 @@ export interface UserStats {
 }
 
 // 활동 타입
-export type ActivityType = 'update' | 'complete' | 'create' | 'join' | 'edit' | 'delete';
+export type ActivityType =
+  | "update"
+  | "complete"
+  | "create"
+  | "join"
+  | "edit"
+  | "delete";
 
 // 사용자 활동
 export interface UserActivity {
