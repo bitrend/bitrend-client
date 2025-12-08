@@ -138,8 +138,8 @@ export function skillAnalysisToBinaries(skillAnalysis: DashboardSkillAnalysis): 
         color: "#ff709d"
       },
       others: {
-        percentage: skillAnalysis.distribution.skillAssessment.percentage,
-        size: `${skillAnalysis.distribution.skillAssessment.score.byte}Byte`,
+        percentage: skillAnalysis.distribution.contributionPattern.percentage + skillAnalysis.distribution.skillAssessment.percentage,
+        size: `${skillAnalysis.distribution.contributionPattern.score.byte + skillAnalysis.distribution.skillAssessment.score.byte}Byte`,
         label: "Others",
         color: "#ff99b9"
       }
