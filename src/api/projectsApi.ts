@@ -70,7 +70,7 @@ export async function removeEvaluationProject(
   projectId: string,
   token: string
 ): Promise<void> {
-  return apiRequest<void>(`/api/projects/evaluations/${projectId}`, {
+  return apiRequest<void>(`/api/projects/${projectId}`, {
     method: 'DELETE',
     token,
   });

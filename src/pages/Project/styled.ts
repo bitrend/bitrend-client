@@ -48,8 +48,10 @@ export const Counter = styled.div`
   ${Text.Body.M}
 `;
 
-export const CounterPrimary = styled.span`
-  color: ${Theme.Functional.Primary};
+export const CounterPrimary = styled.span<{ isMaxReached: boolean }>`
+  color: ${({ isMaxReached }) =>
+    isMaxReached ? Theme.Functional.Primary : Theme.Text.Text_30
+  };
 `;
 
 export const CounterSecondary = styled.span`

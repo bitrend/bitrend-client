@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import * as _ from "./styled";
 import { Icon } from "../../components/Icons/Icon";
 import { Theme } from "../../Theme/theme";
-import { getEvaluationProjects, reorderProjects } from "../../api/projectsApi";
+import { getEvaluationProjects, reorderProjects, addEvaluationProject, removeEvaluationProject } from "../../api/projectsApi";
 import { auth } from "../../utils/auth";
 import type { EvaluationProject, ReorderProjectsRequest } from "../../types/projects";
 import {
@@ -198,12 +198,46 @@ export function Project() {
     }
   };
 
-  const handleToggleComplete = (id: string) => {
-    setProjects((items) =>
-      items.map((item) =>
-        item.id === id ? { ...item, isCompleted: !item.isCompleted } : item
-      )
-    );
+  const handleToggleComplete = async (id: string) => {
+    const project = projects.find(p => p.id === id);
+    if (!project) return;
+
+    const token = auth.getToken();
+    if (!token) return;
+
+    // 3개 제한 체크: 현재 선택된 개수가 3개이고, 새로 선택하려는 경우
+    const currentSelectedCount = projects.filter(p => p.isCompleted).length;
+    if (!project.isCompleted && currentSelectedCount >= 3) {
+      alert("최대 3개의 프로젝트까지만 선택할 수 있습니다.");
+      return;
+    }
+
+    try {
+      if (project.isCompleted) {
+        // 선택 해제 - DELETE API 호출
+        await removeEvaluationProject(id, token);
+      } else {
+        // 선택 - POST API 호출
+        const evalProject = evaluationProjects.find(ep => ep.id === id);
+        if (evalProject) {
+          await addEvaluationProject(token, {
+            githubRepoId: evalProject.githubRepo.id,
+            githubUrl: evalProject.githubRepo.githubUrl,
+            priority: currentSelectedCount + 1
+          });
+        }
+      }
+
+      // API 호출 성공 시 UI 업데이트
+      setProjects((items) =>
+        items.map((item) =>
+          item.id === id ? { ...item, isCompleted: !item.isCompleted } : item
+        )
+      );
+    } catch (err) {
+      console.error("Failed to toggle project:", err);
+      alert("프로젝트 선택/해제에 실패했습니다.");
+    }
   };
 
   if (loading) {
@@ -240,7 +274,7 @@ export function Project() {
           <_.Subtitle>프로젝트 리스트 입니다!</_.Subtitle>
         </_.HeaderLeft>
         <_.Counter>
-          <_.CounterPrimary>{completedCount}</_.CounterPrimary>
+          <_.CounterPrimary isMaxReached={completedCount >= 3}>{completedCount}</_.CounterPrimary>
           <_.CounterSecondary> / {projects.length}</_.CounterSecondary>
         </_.Counter>
       </_.Header>
