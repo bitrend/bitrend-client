@@ -192,54 +192,7 @@ Content-Type: application/json
 
 ## TypeScript 타입 정의
 
-```typescript
-// 사용자 프로필
-export interface UserProfile {
-  id: number;
-  githubId: string;  // 문자열로 반환 (프론트엔드 호환성)
-  username: string;
-  name: string;
-  email: string;
-  avatarUrl: string;
-  role: string;
-  joinDate: string;
-}
-
-// 사용자 통계
-export interface UserStats {
-  totalProjects: number;
-  completedProjects: number;
-  inProgressProjects: number;
-  totalContributions: number;
-}
-
-// 활동 타입
-export type ActivityType = 'update' | 'complete' | 'create' | 'join' | 'edit' | 'delete';
-
-// 사용자 활동
-export interface UserActivity {
-  id: number;
-  type: ActivityType;
-  action: string;
-  projectName: string | null;
-  timestamp: string;
-  relativeTime: string;
-}
-
-// 활동 목록 응답
-export interface UserActivitiesResponse {
-  activities: UserActivity[];
-  total: number;
-  hasMore: boolean;
-}
-
-// 프로필 수정 요청
-export interface UpdateUserProfileRequest {
-  name?: string;
-  email?: string;
-  role?: string;
-}
-```
+TypeScript 타입 정의는 `src/types/user.ts`에서 관리됩니다.
 
 ---
 

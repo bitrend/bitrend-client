@@ -6,7 +6,7 @@ import { useState } from "react";
 import { PricingModal } from "../../../components/PricingModal/PricingModal";
 
 export function VIP() {
-  const isFolded = useStatioSelector("isFolded", Boolean);
+  const isFolded = useStatioSelector("isFolded", Boolean) || false;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (

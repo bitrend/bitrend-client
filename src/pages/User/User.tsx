@@ -72,7 +72,7 @@ export function User() {
         });
       } catch (err: any) {
         console.error("Failed to fetch user data:", err);
-        setError(err?.error?.message || "데이터를 불러오는데 실패했습니다.");
+        setError((err as { error?: { message?: string } })?.error?.message || "데이터를 불러오는데 실패했습니다.");
       } finally {
         setLoading(false);
       }

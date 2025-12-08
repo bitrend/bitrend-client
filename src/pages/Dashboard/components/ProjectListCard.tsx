@@ -3,13 +3,21 @@ import { Icon } from "../../../components/Icons/Icon";
 import { Theme, Gap } from "../../../Theme/theme";
 import styled from "@emotion/styled";
 import { Text, Radius } from "../../../Theme/theme";
+import type { DashboardEvaluationProjects } from "../../../types/analytics";
 
-const ProjectListCard = () => {
-  const projects = [
+interface ProjectListCardProps {
+  projects?: DashboardEvaluationProjects;
+  loading?: boolean;
+}
+
+const ProjectListCard = ({ projects: projectsData, loading }: ProjectListCardProps) => {
+  const mockProjects = [
     { name: "bitrend/bitrend-client", description: "Description for here", isPublic: true, isLink: false },
     { name: "Statio", description: "Description for here", isPublic: true, isLink: true },
     { name: "Statio-docs", description: "Description for here", isPublic: false, isLink: false },
   ];
+
+  const projects = projectsData?.selected || mockProjects;
 
   return (
     <ProjectListWrapper>
@@ -22,24 +30,38 @@ const ProjectListCard = () => {
         </CardHeader>
 
         <ProjectList>
-          {projects.map((project, index) => (
-            <ProjectItem key={index}>
+          {loading ? (
+            <ProjectItem>
               <ProjectContent>
-                <ProjectNameSection>
-                  <Icon size="XS" color={Theme.Text.Text_30}>workspaces</Icon>
-                  <ProjectName isLink={project.isLink}>{project.name}</ProjectName>
-                  <Badge isPublic={project.isPublic}>
-                    <Icon size="XXS" color={Theme.Functional.Primary}>
-                      {project.isPublic ? "public" : "security"}
-                    </Icon>
-                    <BadgeText>{project.isPublic ? "Public" : "Praivate"}</BadgeText>
-                  </Badge>
-                </ProjectNameSection>
-                <ProjectDescription>{project.description}</ProjectDescription>
+                <ProjectDescription>로딩 중...</ProjectDescription>
               </ProjectContent>
-              <Icon size="XS" color={Theme.Text.Text_Translucence}>drag_indicator</Icon>
             </ProjectItem>
-          ))}
+          ) : projects.map((project, index) => {
+            const isEvalProject = 'evaluationStatus' in project;
+            const projectName = isEvalProject ? project.name : project.name;
+            const projectDesc = isEvalProject ? project.description : project.description;
+            const isPublic = isEvalProject ? project.isPublic : project.isPublic;
+            const isLink = !isEvalProject && 'isLink' in project ? project.isLink : false;
+
+            return (
+              <ProjectItem key={index}>
+                <ProjectContent>
+                  <ProjectNameSection>
+                    <Icon size="XS" color={Theme.Text.Text_30}>workspaces</Icon>
+                    <ProjectName isLink={isLink}>{projectName}</ProjectName>
+                    <Badge isPublic={isPublic}>
+                      <Icon size="XXS" color={Theme.Functional.Primary}>
+                        {isPublic ? "public" : "security"}
+                      </Icon>
+                      <BadgeText>{isPublic ? "Public" : "Private"}</BadgeText>
+                    </Badge>
+                  </ProjectNameSection>
+                  <ProjectDescription>{projectDesc}</ProjectDescription>
+                </ProjectContent>
+                <Icon size="XS" color={Theme.Text.Text_Translucence}>drag_indicator</Icon>
+              </ProjectItem>
+            );
+          })}
         </ProjectList>
       </MainCard>
     </ProjectListWrapper>

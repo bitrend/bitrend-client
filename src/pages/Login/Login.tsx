@@ -1,5 +1,7 @@
 import * as _ from "./styled";
 import SidebarLogo from "../../assets/LogoOnsidebar.svg";
+import { getGitHubAuthUrl } from "../../api/dashboardApi";
+import { useState } from "react";
 
 const CLIENT_ID = "Ov23liD5OXtGiuooueZe";
 const REDIRECT_URI = window.location.origin; // http://localhost:5173
@@ -10,8 +12,18 @@ interface LoginProps {
 }
 
 export function Login({ errorMessage }: LoginProps) {
-  const socialLoginHandler = () => {
-    window.location.assign(GITHUB_LOGIN_URL);
+  const [loading, setLoading] = useState(false);
+
+  const socialLoginHandler = async () => {
+    try {
+      setLoading(true);
+      const { authUrl } = await getGitHubAuthUrl();
+      window.location.assign(authUrl);
+    } catch (error) {
+      console.error('Failed to get GitHub auth URL:', error);
+      alert('로그인 URL을 가져오는데 실패했습니다.');
+      setLoading(false);
+    }
   };
 
   return (
@@ -23,8 +35,8 @@ export function Login({ errorMessage }: LoginProps) {
           <_.Subtitle>GitHub 계정으로 로그인하여 시작하세요</_.Subtitle>
 
           {errorMessage && <_.ErrorMessage>{errorMessage}</_.ErrorMessage>}
-
-          <_.GitHubButton onClick={socialLoginHandler}>
+          
+          <_.GitHubButton onClick={socialLoginHandler} disabled={loading}>
             <_.GitHubIcon>
               <svg
                 width="20"
@@ -41,7 +53,7 @@ export function Login({ errorMessage }: LoginProps) {
                 />
               </svg>
             </_.GitHubIcon>
-            <_.ButtonText>Github으로 로그인</_.ButtonText>
+            <_.ButtonText>{loading ? '로딩 중...' : 'Github으로 로그인'}</_.ButtonText>
           </_.GitHubButton>
         </_.LoginContent>
       </_.LoginCard>

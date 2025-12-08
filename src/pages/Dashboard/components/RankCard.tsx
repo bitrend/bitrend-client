@@ -3,13 +3,28 @@ import { Icon } from "../../../components/Icons/Icon";
 import { Theme, Gap } from "../../../Theme/theme";
 import styled from "@emotion/styled";
 import { Text, Radius } from "../../../Theme/theme";
+import type { DashboardRanking } from "../../../types/analytics";
 
-const RankCard = () => {
-  const topRanks = [
+interface RankCardProps {
+  ranking?: DashboardRanking;
+  loading?: boolean;
+}
+
+const RankCard = ({ ranking, loading }: RankCardProps) => {
+  const mockTopRanks = [
     { rank: 1, userName: "{userName}", score: "346 Byte", color: Theme.Functional.Primary },
     { rank: 2, userName: "{userName}", score: "329 Byte", color: Theme.Functional.Primary_2nd },
     { rank: 3, userName: "{userName}", score: "311 Byte", color: Theme.Functional.Primary_2nd },
   ];
+
+  const topRanks = ranking?.topUsers && ranking.topUsers.length > 0
+    ? ranking.topUsers.slice(0, 3).map(user => ({
+        rank: user.rank,
+        userName: user.name || user.username,
+        score: user.score ? `${user.score.byte}Byte ${user.score.bit}Bit` : "0Byte 0Bit",
+        color: user.rank === 1 ? Theme.Functional.Primary : Theme.Functional.Primary_2nd
+      }))
+    : mockTopRanks;
 
   return (
     <RankCardWrapper>
@@ -42,10 +57,19 @@ const RankCard = () => {
 
           <CurrentRank>
             <RankLeft>
-              <RankNumber color={Theme.Text.Text_30}>118</RankNumber>
-              <CurrentUserName>bbibbaroni</CurrentUserName>
+              <RankNumber color={Theme.Text.Text_30}>
+                {ranking?.userPosition || 118}
+              </RankNumber>
+              <CurrentUserName>
+                {loading ? "로딩 중..." : (ranking?.topUsers.find(u => u.isCurrentUser)?.name || "You")}
+              </CurrentUserName>
             </RankLeft>
-            <CurrentScore>213 Byte</CurrentScore>
+            <CurrentScore>
+              {loading ? "..." : (() => {
+                const currentUser = ranking?.topUsers.find(u => u.isCurrentUser);
+                return currentUser?.score ? `${currentUser.score.byte}Byte ${currentUser.score.bit}Bit` : "-";
+              })()}
+            </CurrentScore>
           </CurrentRank>
         </RankContent>
       </MainCard>
